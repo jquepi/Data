@@ -1,4 +1,4 @@
-This repository contains the core Diagnostics contracts for [Octopus Deploy][1] server.
+This repository contains the core Data contracts for [Octopus Deploy][1] server.
 
 ## Issues
 Please see [Contributing](CONTRIBUTING.md)
