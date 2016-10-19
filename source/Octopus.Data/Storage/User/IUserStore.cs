@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Octopus.Data.Model.User;
-using Octopus.DataModelling;
 
 namespace Octopus.Data.Storage.User
 {
