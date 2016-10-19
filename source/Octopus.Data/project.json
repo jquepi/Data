@@ -1,9 +1,7 @@
 ﻿{
   "version": "0.0.0-*",
-
-  "dependencies": {
-  },
-
+  "iconUrl": "http://i.octopusdeploy.com/resources/Avatar3_360.png",
+  "dependencies": {},
   "frameworks": {
     "netstandard1.0": {
       "dependencies": {
