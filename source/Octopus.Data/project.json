@@ -3,7 +3,9 @@
   "packOptions": {
     "iconUrl": "http://i.octopusdeploy.com/resources/Avatar3_360.png"
   },
-  "dependencies": {},
+  "dependencies": {
+    "Nevermore.Contracts": "1.0.1"  
+  },
   "frameworks": {
     "netstandard1.0": {
       "dependencies": {
