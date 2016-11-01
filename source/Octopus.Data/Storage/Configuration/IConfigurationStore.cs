@@ -1,4 +1,5 @@
 ﻿using System;
+using Nevermore.Contracts;
 using Octopus.Data.Model;
 
 namespace Octopus.Data.Storage.Configuration

@@ -1,4 +1,6 @@
-﻿namespace Octopus.Data.Model
+﻿using Nevermore.Contracts;
+
+namespace Octopus.Data.Model
 {
     public interface IOverridableId : IId
     {
