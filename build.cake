@@ -23,8 +23,6 @@ var globalAssemblyFile = "./source/" + packageName + "/Properties/AssemblyInfo.c
 var projectToPackage = "./source/" + packageName;
 var cleanups = new List<IDisposable>(); 
 
-var isContinuousIntegrationBuild = !BuildSystem.IsLocalBuild;
-
 var gitVersionInfo = GitVersion(new GitVersionSettings {
     OutputType = GitVersionOutput.Json
 });
@@ -36,6 +34,11 @@ var nugetVersion = gitVersionInfo.NuGetVersion;
 ///////////////////////////////////////////////////////////////////////////////
 Setup(context =>
 {
+    if(BuildSystem.IsRunningOnTeamCity)
+        BuildSystem.TeamCity.SetBuildNumber(gitVersionInfo.NuGetVersion);
+    if(BuildSystem.IsRunningOnAppVeyor)
+        AppVeyor.UpdateBuildVersion(gitVersionInfo.NuGetVersion);
+
     Information("Building " + packageName + " v{0}", nugetVersion);
 });
 
@@ -121,22 +124,15 @@ Task("__Pack")
 });
 
 Task("__Publish")
-    .WithCriteria(isContinuousIntegrationBuild)
+    .WithCriteria(BuildSystem.IsRunningOnTeamCity)
     .Does(() =>
 {
-    var isPullRequest = !String.IsNullOrEmpty(EnvironmentVariable("APPVEYOR_PULL_REQUEST_NUMBER"));
-    var isMasterBranch = EnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master" && !isPullRequest;
-    var shouldPushToMyGet = !BuildSystem.IsLocalBuild;
-    var shouldPushToNuGet = !BuildSystem.IsLocalBuild && isMasterBranch;
-
-    if (shouldPushToMyGet)
-    {
-        NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
-            Source = "https://octopus.myget.org/F/octopus-dependencies/api/v3/index.json",
-            ApiKey = EnvironmentVariable("MyGetApiKey")
-        });
-    }
-    if (shouldPushToNuGet)
+    NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
+		Source = "https://octopus.myget.org/F/octopus-dependencies/api/v3/index.json",
+		ApiKey = EnvironmentVariable("MyGetApiKey")
+	});
+	
+    if (gitVersionInfo.PreReleaseTag == "")
     {
         NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
             Source = "https://www.nuget.org/api/v2/package",
