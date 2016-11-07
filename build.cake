@@ -132,7 +132,7 @@ Task("__Publish")
 		ApiKey = EnvironmentVariable("MyGetApiKey")
 	});
 	
-    if (gitVersionInfo.PreReleaseTag == "")
+    if (string.IsNullOrWhitespace(gitVersionInfo.PreReleaseTag))
     {
         NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
             Source = "https://www.nuget.org/api/v2/package",
