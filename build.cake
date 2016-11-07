@@ -88,6 +88,7 @@ Task("__UpdateAssemblyVersionInformation")
     Information("AssemblyVersion -> {0}", gitVersionInfo.AssemblySemVer);
     Information("AssemblyFileVersion -> {0}", $"{gitVersionInfo.MajorMinorPatch}.0");
     Information("AssemblyInformationalVersion -> {0}", gitVersionInfo.InformationalVersion);
+    Information("PreReleaseLabel -> {0}", gitVersionInfo.PreReleaseLabel);
 });
 
 Task("__Build")
@@ -132,7 +133,7 @@ Task("__Publish")
 		ApiKey = EnvironmentVariable("MyGetApiKey")
 	});
 	
-    if (string.IsNullOrWhiteSpace(gitVersionInfo.PreReleaseTag))
+    if (string.IsNullOrWhiteSpace(gitVersionInfo.PreReleaseLabel))
     {
         NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
             Source = "https://www.nuget.org/api/v2/package",
