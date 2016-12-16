@@ -18,6 +18,13 @@ namespace Octopus.Data.Storage.User
             FailureReason = failureReason;
         }
 
+        public UserCreateOrUpdateResult(UserCreateOrUpdateResult copyFrom)
+        {
+            Succeeded = copyFrom.Succeeded;
+            User = copyFrom.User;
+            FailureReason = copyFrom.FailureReason;
+        }
+
         public bool Succeeded { get; private set; }
         public IUser User { get; private set; }
         public string FailureReason { get; private set; }
