@@ -2,10 +2,10 @@
 // TOOLS
 //////////////////////////////////////////////////////////////////////
 #tool "nuget:?package=GitVersion.CommandLine&prerelease"
-#addin "MagicChunks"
 
 using Path = System.IO.Path;
 using IO = System.IO;
+using Cake.Common.Tools;
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -16,12 +16,10 @@ var configuration = Argument("configuration", "Release");
 ///////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
 ///////////////////////////////////////////////////////////////////////////////
-var artifactsDir = "./artifacts";
+var publishDir = "./publish";
 var localPackagesDir = "../LocalPackages";
+var artifactsDir = "./artifacts";
 var packageName = "Octopus.Data";
-var globalAssemblyFile = "./source/" + packageName + "/Properties/AssemblyInfo.cs";
-var projectToPackage = "./source/" + packageName;
-var cleanups = new List<IDisposable>(); 
 
 var gitVersionInfo = GitVersion(new GitVersionSettings {
     OutputType = GitVersionOutput.Json
@@ -44,11 +42,7 @@ Setup(context =>
 
 Teardown(context =>
 {
-    Information("Cleaning up");
-    foreach(var item in cleanups)
-        item.Dispose();
-
-		Information("Finished running tasks.");
+    Information("Finished running tasks.");
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -58,70 +52,43 @@ Teardown(context =>
 Task("__Default")
     .IsDependentOn("__Clean")
     .IsDependentOn("__Restore")
-    .IsDependentOn("__UpdateAssemblyVersionInformation")
     .IsDependentOn("__Build")
-    .IsDependentOn("__UpdateProjectJsonVersion")
     .IsDependentOn("__Pack")
-	.IsDependentOn("__Publish")
-	.IsDependentOn("__CopyToLocalPackages");
+    .IsDependentOn("__Publish")
+    .IsDependentOn("__CopyToLocalPackages");
 
 Task("__Clean")
     .Does(() =>
 {
     CleanDirectory(artifactsDir);
+    CleanDirectory(publishDir);
     CleanDirectories("./source/**/bin");
     CleanDirectories("./source/**/obj");
 });
 
 Task("__Restore")
-    .Does(() => DotNetCoreRestore());
-	
-Task("__UpdateAssemblyVersionInformation")
-    .Does(() =>
-{
-    cleanups.Add(new AutoRestoreFile(globalAssemblyFile));
-	GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true,
-        UpdateAssemblyInfoFilePath = globalAssemblyFile
-    });
+    .Does(() => DotNetCoreRestore("source"));
 
-    Information("AssemblyVersion -> {0}", gitVersionInfo.AssemblySemVer);
-    Information("AssemblyFileVersion -> {0}", $"{gitVersionInfo.MajorMinorPatch}.0");
-    Information("AssemblyInformationalVersion -> {0}", gitVersionInfo.InformationalVersion);
-    Information("PreReleaseLabel -> {0}", gitVersionInfo.PreReleaseLabel);
-});
 
 Task("__Build")
-    .IsDependentOn("__UpdateAssemblyVersionInformation")
     .Does(() =>
 {
-    DotNetCoreBuild("**/project.json", new DotNetCoreBuildSettings
+    DotNetCoreBuild("./source", new DotNetCoreBuildSettings
     {
-        Configuration = configuration
-    });
-});
-
-Task("__UpdateProjectJsonVersion")
-    .Does(() =>
-{
-    var projectToPackagePackageJson = $"{projectToPackage}/project.json";
-    cleanups.Add(new AutoRestoreFile(projectToPackagePackageJson));
-    Information("Updating {0} version -> {1}", projectToPackagePackageJson, nugetVersion);
-
-    TransformConfig(projectToPackagePackageJson, projectToPackagePackageJson, new TransformationCollection {
-        { "version", nugetVersion }
+        Configuration = configuration,
+        ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
     });
 });
 
 Task("__Pack")
-    .Does(() => 
-{
-	DotNetCorePack(projectToPackage, new DotNetCorePackSettings
-	{
-		Configuration = configuration,
-		OutputDirectory = artifactsDir,
-		NoBuild = true
-	});
+    .Does(() => {
+        DotNetCorePack("source", new DotNetCorePackSettings
+        {
+            Configuration = configuration,
+            OutputDirectory = artifactsDir,
+            NoBuild = true,
+            ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
+        });
 });
 
 Task("__Publish")
@@ -153,15 +120,15 @@ Task("__CopyToLocalPackages")
 
 private class AutoRestoreFile : IDisposable
 {
-	private byte[] _contents;
-	private string _filename;
-	public AutoRestoreFile(string filename)
-	{
-		_filename = filename;
-		_contents = IO.File.ReadAllBytes(filename);
-	}
+    private byte[] _contents;
+    private string _filename;
+    public AutoRestoreFile(string filename)
+    {
+        _filename = filename;
+        _contents = IO.File.ReadAllBytes(filename);
+    }
 
-	public void Dispose() => IO.File.WriteAllBytes(_filename, _contents);
+    public void Dispose() => IO.File.WriteAllBytes(_filename, _contents);
 }
 
 //////////////////////////////////////////////////////////////////////
