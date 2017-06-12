@@ -4,6 +4,6 @@ namespace Octopus.Data.Model.User
 {
     public interface IIdentity : IDocument
     {
-        string DisplayName { get; set; }
+        string DisplayName { get; }
     }
 }
