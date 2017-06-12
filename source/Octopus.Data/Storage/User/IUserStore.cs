@@ -29,5 +29,15 @@ namespace Octopus.Data.Storage.User
         void DisableUser(string userId);
 
         void UpdateUsersExternalGroups(IUser user, HashSet<string> groups);
+
+        UserFindAndUpdateResult FindAndUpdate(
+            string username,
+            string providerName,
+            string displayName,
+            string emailAddress,
+            string externalId,
+            ApiKeyDescriptor apiKeyDescriptor,
+            string password,
+            string[] externalGroups);
     }
 }
