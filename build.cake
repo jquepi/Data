@@ -19,9 +19,7 @@ var configuration = Argument("configuration", "Release");
 var artifactsDir = "./artifacts";
 var localPackagesDir = "../LocalPackages";
 var packageName = "Octopus.Data";
-var globalAssemblyFile = "./source/" + packageName + "/Properties/AssemblyInfo.cs";
 var projectToPackage = "./source/" + packageName;
-var cleanups = new List<IDisposable>(); 
 
 var gitVersionInfo = GitVersion(new GitVersionSettings {
     OutputType = GitVersionOutput.Json
@@ -36,19 +34,13 @@ Setup(context =>
 {
     if(BuildSystem.IsRunningOnTeamCity)
         BuildSystem.TeamCity.SetBuildNumber(gitVersionInfo.NuGetVersion);
-    if(BuildSystem.IsRunningOnAppVeyor)
-        AppVeyor.UpdateBuildVersion(gitVersionInfo.NuGetVersion);
 
     Information("Building " + packageName + " v{0}", nugetVersion);
 });
 
 Teardown(context =>
 {
-    Information("Cleaning up");
-    foreach(var item in cleanups)
-        item.Dispose();
-
-		Information("Finished running tasks.");
+    Information("Finished running tasks.");
 });
 
 //////////////////////////////////////////////////////////////////////
@@ -58,9 +50,7 @@ Teardown(context =>
 Task("__Default")
     .IsDependentOn("__Clean")
     .IsDependentOn("__Restore")
-    .IsDependentOn("__UpdateAssemblyVersionInformation")
     .IsDependentOn("__Build")
-    .IsDependentOn("__UpdateProjectJsonVersion")
     .IsDependentOn("__Pack")
 	.IsDependentOn("__Publish")
 	.IsDependentOn("__CopyToLocalPackages");
@@ -74,42 +64,15 @@ Task("__Clean")
 });
 
 Task("__Restore")
-    .Does(() => DotNetCoreRestore());
+    .Does(() => DotNetCoreRestore("source"));
 	
-Task("__UpdateAssemblyVersionInformation")
-    .Does(() =>
-{
-    cleanups.Add(new AutoRestoreFile(globalAssemblyFile));
-	GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true,
-        UpdateAssemblyInfoFilePath = globalAssemblyFile
-    });
-
-    Information("AssemblyVersion -> {0}", gitVersionInfo.AssemblySemVer);
-    Information("AssemblyFileVersion -> {0}", $"{gitVersionInfo.MajorMinorPatch}.0");
-    Information("AssemblyInformationalVersion -> {0}", gitVersionInfo.InformationalVersion);
-    Information("PreReleaseLabel -> {0}", gitVersionInfo.PreReleaseLabel);
-});
-
 Task("__Build")
-    .IsDependentOn("__UpdateAssemblyVersionInformation")
     .Does(() =>
 {
-    DotNetCoreBuild("**/project.json", new DotNetCoreBuildSettings
+    DotNetCoreBuild("source", new DotNetCoreBuildSettings
     {
-        Configuration = configuration
-    });
-});
-
-Task("__UpdateProjectJsonVersion")
-    .Does(() =>
-{
-    var projectToPackagePackageJson = $"{projectToPackage}/project.json";
-    cleanups.Add(new AutoRestoreFile(projectToPackagePackageJson));
-    Information("Updating {0} version -> {1}", projectToPackagePackageJson, nugetVersion);
-
-    TransformConfig(projectToPackagePackageJson, projectToPackagePackageJson, new TransformationCollection {
-        { "version", nugetVersion }
+        Configuration = configuration,
+        ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
     });
 });
 
@@ -120,7 +83,8 @@ Task("__Pack")
 	{
 		Configuration = configuration,
 		OutputDirectory = artifactsDir,
-		NoBuild = true
+		NoBuild = true,
+        ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
 	});
 });
 
@@ -150,19 +114,6 @@ Task("__CopyToLocalPackages")
     CreateDirectory(localPackagesDir);
     CopyFileToDirectory(Path.Combine(artifactsDir, $"{packageName}.{nugetVersion}.nupkg"), localPackagesDir);
 });
-
-private class AutoRestoreFile : IDisposable
-{
-	private byte[] _contents;
-	private string _filename;
-	public AutoRestoreFile(string filename)
-	{
-		_filename = filename;
-		_contents = IO.File.ReadAllBytes(filename);
-	}
-
-	public void Dispose() => IO.File.WriteAllBytes(_filename, _contents);
-}
 
 //////////////////////////////////////////////////////////////////////
 // TASKS

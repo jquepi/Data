@@ -18,6 +18,6 @@ namespace Octopus.Data.Model.User
         /// </summary>
         ReferenceCollection ExternalIds { get; }
 
-        List<IIdentity> ExternalIdentities { get; set; }
+        List<IIdentity> Identities { get; set; }
     }
 }
