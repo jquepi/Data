@@ -5,7 +5,7 @@ namespace Octopus.Data.Storage.User
 {
     public class UserCreateOrUpdateResult
     {
-        public UserCreateOrUpdateResult(IUser user)
+        public UserCreateOrUpdateResult(IUserWithIdentities user)
         {
             Succeeded = user != null;
             User = user;
@@ -26,7 +26,7 @@ namespace Octopus.Data.Storage.User
         }
 
         public bool Succeeded { get; private set; }
-        public IUser User { get; private set; }
+        public IUserWithIdentities User { get; private set; }
         public string FailureReason { get; private set; }
     }
 }
