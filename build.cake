@@ -58,7 +58,6 @@ Task("__Clean")
     .Does(() =>
 {
     CleanDirectory(artifactsDir);
-    CleanDirectory(publishDir);
     CleanDirectories("./source/**/bin");
     CleanDirectories("./source/**/obj");
 });
