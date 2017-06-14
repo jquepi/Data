@@ -15,8 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nevermore.Contracts" Version="3.1.1-enh-identity0004" />
-    <PackageReference Include="Nevermore.Contracts" Version="3.1.1-enh-odcm0002" />
+    <PackageReference Include="Nevermore.Contracts" Version="4.0.0-enh-odcm0046" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' ">
