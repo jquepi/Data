@@ -2,10 +2,10 @@
 // TOOLS
 //////////////////////////////////////////////////////////////////////
 #tool "nuget:?package=GitVersion.CommandLine&prerelease"
-#addin "MagicChunks"
 
 using Path = System.IO.Path;
 using IO = System.IO;
+using Cake.Common.Tools;
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -19,7 +19,6 @@ var configuration = Argument("configuration", "Release");
 var artifactsDir = "./artifacts";
 var localPackagesDir = "../LocalPackages";
 var packageName = "Octopus.Data";
-var projectToPackage = "./source/" + packageName;
 
 var gitVersionInfo = GitVersion(new GitVersionSettings {
     OutputType = GitVersionOutput.Json
@@ -52,20 +51,20 @@ Task("__Default")
     .IsDependentOn("__Restore")
     .IsDependentOn("__Build")
     .IsDependentOn("__Pack")
-	.IsDependentOn("__Publish")
-	.IsDependentOn("__CopyToLocalPackages");
+    .IsDependentOn("__Publish")
+    .IsDependentOn("__CopyToLocalPackages");
 
 Task("__Clean")
     .Does(() =>
 {
     CleanDirectory(artifactsDir);
+    CleanDirectory(publishDir);
     CleanDirectories("./source/**/bin");
     CleanDirectories("./source/**/obj");
 });
 
 Task("__Restore")
     .Does(() => DotNetCoreRestore("source"));
-	
 Task("__Build")
     .Does(() =>
 {
@@ -77,15 +76,14 @@ Task("__Build")
 });
 
 Task("__Pack")
-    .Does(() => 
-{
-	DotNetCorePack(projectToPackage, new DotNetCorePackSettings
-	{
-		Configuration = configuration,
-		OutputDirectory = artifactsDir,
-		NoBuild = true,
-        ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
-	});
+    .Does(() => {
+        DotNetCorePack("source", new DotNetCorePackSettings
+        {
+            Configuration = configuration,
+            OutputDirectory = artifactsDir,
+            NoBuild = true,
+            ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
+        });
 });
 
 Task("__Publish")
