@@ -2,7 +2,7 @@
 
 namespace Octopus.Data.Model.User
 {
-    public interface IIdentity : IDocument
+    public interface IIdentity : IId
     {
         string Provider { get; }
     }
