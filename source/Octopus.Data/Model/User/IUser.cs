@@ -12,8 +12,12 @@ namespace Octopus.Data.Model.User
         string DisplayName { get; }
         string EmailAddress { get; }
 
-        bool IsService { get; set; }
+        bool IsService { get; }
 
-        bool IsActive { get; set; }
+        bool IsActive { get; }
+        
+        ReferenceCollection ExternalIdentifiers { get; }
+        
+        HashSet<IIdentity> Identities { get; }
     }
 }
