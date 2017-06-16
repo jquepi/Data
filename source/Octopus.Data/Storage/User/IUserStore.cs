@@ -9,6 +9,6 @@ namespace Octopus.Data.Storage.User
         IUser GetByUsername(string username);
         IUser GetByIdentificationToken(Guid identificationToken);
 
-        IUser GetByIdentity(IIdentity identityToMatch);
+        IUser GetByIdentity(Identity identityToMatch);
     }
 }

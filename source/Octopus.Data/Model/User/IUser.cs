@@ -18,6 +18,9 @@ namespace Octopus.Data.Model.User
         
         ReferenceCollection ExternalIdentifiers { get; }
         
-        HashSet<IIdentity> Identities { get; }
+        HashSet<Identity> Identities { get; }
+
+        void SetPassword(string plainTextPassword);
+        bool ValidatePassword(string plainTextPassword);
     }
 }
