@@ -1,8 +1,8 @@
 ﻿namespace Octopus.Data.Storage.User
 {
-    public abstract class ActiveDirectoryIdentityToMatch : ExternalIdentityToMatch
+    public class ActiveDirectoryIdentityToMatch : ExternalIdentityToMatch
     {
-        protected ActiveDirectoryIdentityToMatch(string provider, string emailAddress, string upn, string samAccountName) : base(provider, emailAddress)
+        public ActiveDirectoryIdentityToMatch(string provider, string emailAddress, string upn, string samAccountName) : base(provider, emailAddress)
         {
             Upn = upn;
             SamAccountName = samAccountName;
