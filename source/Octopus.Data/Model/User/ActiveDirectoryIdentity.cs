@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Octopus.Data.Model.User
@@ -16,6 +17,7 @@ namespace Octopus.Data.Model.User
         public string Upn { get; set; }
         public string SamAccountName { get; set; }
 
-        public HashSet<string> ExternalSecurityGroups { get; set; }
+        public HashSet<string> SecurityGroups { get; set; }
+        public DateTimeOffset SecurityGroupsLastUpdated { get; set; }
     }
 }
