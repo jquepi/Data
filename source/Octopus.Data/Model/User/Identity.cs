@@ -8,14 +8,10 @@ namespace Octopus.Data.Model.User
         protected Identity()
         {}
 
-        protected Identity(string provider)
-        {
-            Provider = provider;
-        }
-
-        protected Identity(string id, string provider) : this(provider)
+        protected Identity(string id, string provider)
         {
             Id = id;
+            Provider = provider;
         }
 
         public string Id { get; }
