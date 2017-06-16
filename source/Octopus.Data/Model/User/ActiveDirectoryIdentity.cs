@@ -18,6 +18,6 @@ namespace Octopus.Data.Model.User
         public string SamAccountName { get; set; }
 
         public HashSet<string> SecurityGroups { get; set; }
-        public DateTimeOffset SecurityGroupsLastUpdated { get; set; }
+        public DateTimeOffset? SecurityGroupsLastUpdated { get; set; }
     }
 }
