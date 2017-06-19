@@ -64,6 +64,7 @@ Task("__Clean")
 
 Task("__Restore")
     .Does(() => DotNetCoreRestore("source"));
+	
 Task("__Build")
     .Does(() =>
 {
