@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Nevermore.Contracts;
 
 namespace Octopus.Data.Model.User
 {
-    public class OAuthIdentity : ExternalIdentity
+    public class OAuthIdentity : ExternalIdentity, IHasExternalSecurityGroups
     {
         protected OAuthIdentity()
         {}
@@ -14,6 +16,19 @@ namespace Octopus.Data.Model.User
 
         public string ExternalId { get; set; }
 
-        public HashSet<string> ExternalSecurityGroups { get; set; }
+        public ReferenceCollection SecurityGroupIds { get; set; }
+        public DateTimeOffset? SecurityGroupsLastUpdated { get; private set; }
+        
+        public void ClearSecurityGroupIds()
+        {
+            SecurityGroupIds.Clear();
+            SecurityGroupsLastUpdated = null;
+        }
+
+        public void SetSecurityGroupIds(IEnumerable<string> ids, DateTimeOffset updated)
+        {
+            SecurityGroupIds = new ReferenceCollection(ids);
+            SecurityGroupsLastUpdated = updated;
+        }
     }
 }
