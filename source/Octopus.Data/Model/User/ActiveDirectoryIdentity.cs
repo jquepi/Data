@@ -9,7 +9,7 @@ namespace Octopus.Data.Model.User
         protected ActiveDirectoryIdentity()
         {}
 
-        public ActiveDirectoryIdentity(string id, string provider, string emailAddress, string upn, string samAccountName) : base(id, provider, emailAddress)
+        public ActiveDirectoryIdentity(string provider, string emailAddress, string upn, string samAccountName) : base(provider, emailAddress)
         {
             Upn = upn;
             SamAccountName = samAccountName;

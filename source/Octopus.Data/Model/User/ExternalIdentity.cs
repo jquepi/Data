@@ -5,7 +5,7 @@
         protected ExternalIdentity()
         {}
 
-        public ExternalIdentity(string id, string provider, string emailAddress) : base(id, provider)
+        public ExternalIdentity(string provider, string emailAddress) : base(provider)
         {
             EmailAddress = emailAddress;
         }

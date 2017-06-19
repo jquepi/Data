@@ -1,20 +1,17 @@
 ﻿using System;
-using Nevermore.Contracts;
 
 namespace Octopus.Data.Model.User
 {
-    public abstract class Identity : IId
+    public abstract class Identity
     {
         protected Identity()
         {}
 
-        protected Identity(string id, string provider)
+        protected Identity(string provider)
         {
-            Id = id;
             Provider = provider;
         }
 
-        public string Id { get; }
         public string Provider { get; }
     }
 }

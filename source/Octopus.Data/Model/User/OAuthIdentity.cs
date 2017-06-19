@@ -9,7 +9,7 @@ namespace Octopus.Data.Model.User
         protected OAuthIdentity()
         {}
 
-        public OAuthIdentity(string id, string provider, string emailAddress, string externalId) : base(id, provider, emailAddress)
+        public OAuthIdentity(string provider, string emailAddress, string externalId) : base(provider, emailAddress)
         {
             ExternalId = externalId;
         }
