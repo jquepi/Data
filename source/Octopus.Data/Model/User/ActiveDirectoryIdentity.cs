@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
-using Nevermore.Contracts;
 
 namespace Octopus.Data.Model.User
 {
-    public class ActiveDirectoryIdentity : ExternalIdentity, IHasExternalSecurityGroups
+    public class ActiveDirectoryIdentity : ExternalIdentity
     {
         protected ActiveDirectoryIdentity()
         {}
@@ -17,20 +15,5 @@ namespace Octopus.Data.Model.User
 
         public string Upn { get; set; }
         public string SamAccountName { get; set; }
-
-        public ReferenceCollection SecurityGroupIds { get; set; }
-        public DateTimeOffset? SecurityGroupsLastUpdated { get; set; }
-
-        public void ClearSecurityGroupIds()
-        {
-            SecurityGroupIds.Clear();
-            SecurityGroupsLastUpdated = null;
-        }
-
-        public void SetSecurityGroupIds(IEnumerable<string> ids, DateTimeOffset updated)
-        {
-            SecurityGroupIds = new ReferenceCollection(ids);
-            SecurityGroupsLastUpdated = updated;
-        }
     }
 }

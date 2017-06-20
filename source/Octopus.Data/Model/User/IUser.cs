@@ -20,6 +20,11 @@ namespace Octopus.Data.Model.User
         
         HashSet<Identity> Identities { get; }
 
+        IDictionary<string, SecurityGroups> SecurityGroupIds { get; }
+        
+        void ClearSecurityGroupIds(string provider);
+        void SetSecurityGroupIds(string provider, IEnumerable<string> ids, DateTimeOffset updated);
+        
         void SetPassword(string plainTextPassword);
         bool ValidatePassword(string plainTextPassword);
     }
