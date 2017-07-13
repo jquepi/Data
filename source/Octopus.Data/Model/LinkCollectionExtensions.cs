@@ -18,12 +18,6 @@ namespace Octopus.Data.Model
 
             collection.Add("Page.Current", formatWithSkipAndTake(currentOffset, perPage));
 
-            var lastPage = (int)Math.Ceiling((double)total / perPage);
-            for (var i = 0; i < lastPage; i++)
-            {
-                collection.Add("Page." + i, formatWithSkipAndTake(i * perPage, perPage));
-            }
-
             return collection;
         }
     }
