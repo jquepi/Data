@@ -15,7 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nevermore.Contracts" Version="1.0.1" />
     <PackageReference Include="Nevermore.Contracts" Version="4.0.0-enh-odcm0046" />
   </ItemGroup>
 
