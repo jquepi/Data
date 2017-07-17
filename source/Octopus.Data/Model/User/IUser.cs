@@ -7,26 +7,22 @@ namespace Octopus.Data.Model.User
     public interface IUser : IId
     {
         string Username { get; }
-        string DisplayName { get; set; }
-        string EmailAddress { get; set; }
-        string ExternalId { get; }
-
         Guid IdentificationToken { get; }
 
-        DateTimeOffset? SecurityGroupsLastUpdated { get; set; }
+        string DisplayName { get; }
+        string EmailAddress { get; }
 
-        bool HasSecurityGroupIds { get; }
+        bool IsService { get; }
 
-        bool IsService{ get; set; }
+        bool IsActive { get; }
+        
+        ReferenceCollection ExternalIdentifiers { get; }
+        
+        HashSet<Identity> Identities { get; }
 
-        bool IsActive { get; set; }
-
-        void SetPassword(string password);
+        SecurityGroups GetSecurityGroups(string provider);
+        
+        void SetPassword(string plainTextPassword);
         bool ValidatePassword(string plainTextPassword);
-
-        void SetExternalId(string externalId);
-
-        void SetExternalSecurityGroups(IEnumerable<string> groups, DateTimeOffset updatedDateTime);
-        HashSet<string> GetExternalSecurityGroups();
     }
 }

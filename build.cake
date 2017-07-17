@@ -16,9 +16,8 @@ var configuration = Argument("configuration", "Release");
 ///////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
 ///////////////////////////////////////////////////////////////////////////////
-var publishDir = "./publish";
-var localPackagesDir = "../LocalPackages";
 var artifactsDir = "./artifacts";
+var localPackagesDir = "../LocalPackages";
 var packageName = "Octopus.Data";
 
 var gitVersionInfo = GitVersion(new GitVersionSettings {
@@ -34,8 +33,6 @@ Setup(context =>
 {
     if(BuildSystem.IsRunningOnTeamCity)
         BuildSystem.TeamCity.SetBuildNumber(gitVersionInfo.NuGetVersion);
-    if(BuildSystem.IsRunningOnAppVeyor)
-        AppVeyor.UpdateBuildVersion(gitVersionInfo.NuGetVersion);
 
     Information("Building " + packageName + " v{0}", nugetVersion);
 });
@@ -61,19 +58,17 @@ Task("__Clean")
     .Does(() =>
 {
     CleanDirectory(artifactsDir);
-    CleanDirectory(publishDir);
     CleanDirectories("./source/**/bin");
     CleanDirectories("./source/**/obj");
 });
 
 Task("__Restore")
     .Does(() => DotNetCoreRestore("source"));
-
-
+	
 Task("__Build")
     .Does(() =>
 {
-    DotNetCoreBuild("./source", new DotNetCoreBuildSettings
+    DotNetCoreBuild("source", new DotNetCoreBuildSettings
     {
         Configuration = configuration,
         ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
@@ -117,19 +112,6 @@ Task("__CopyToLocalPackages")
     CreateDirectory(localPackagesDir);
     CopyFileToDirectory(Path.Combine(artifactsDir, $"{packageName}.{nugetVersion}.nupkg"), localPackagesDir);
 });
-
-private class AutoRestoreFile : IDisposable
-{
-    private byte[] _contents;
-    private string _filename;
-    public AutoRestoreFile(string filename)
-    {
-        _filename = filename;
-        _contents = IO.File.ReadAllBytes(filename);
-    }
-
-    public void Dispose() => IO.File.WriteAllBytes(_filename, _contents);
-}
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
