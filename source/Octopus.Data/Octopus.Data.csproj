@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Nevermore.Contracts" Version="1.0.1" />
+    <PackageReference Include="Obsolete.Fody" Version="4.2.4" />
   </ItemGroup>
 
 </Project>

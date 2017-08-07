@@ -16,6 +16,17 @@ namespace Octopus.Data.Storage.User
 
         UserCreateOrUpdateResult CreateOrUpdate(
             string username,
+            string displayName,
+            string emailAddress,
+            string externalId,
+            ApiKeyDescriptor apiKeyDescriptor,
+            bool generateRandomPasswordOnCreate,
+            string password,
+            bool isService);
+
+        [ObsoleteEx(Message = "This method handles requesting the groups internally", TreatAsErrorFromVersion = "2.0", RemoveInVersion = "2.0")]
+        UserCreateOrUpdateResult CreateOrUpdate(
+            string username,
             string displayName, 
             string emailAddress, 
             string externalId, 
@@ -28,6 +39,7 @@ namespace Octopus.Data.Storage.User
         void EnableUser(string userId);
         void DisableUser(string userId);
 
+        [ObsoleteEx(Message = "Groups are handled by the scheduler  internally", TreatAsErrorFromVersion = "2.0", RemoveInVersion = "2.0")]
         void UpdateUsersExternalGroups(IUser user, HashSet<string> groups);
     }
 }
