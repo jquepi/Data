@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Octopus.Data.Model.User;
 
 namespace Octopus.Data.Storage.User
@@ -15,7 +16,8 @@ namespace Octopus.Data.Storage.User
             string emailAddress,
             string externalId,
             string password,
-            bool isService);
+            bool isService,
+            CancellationToken cancellationToken);
 
         void EnableUser(string userId);
         void DisableUser(string userId);
