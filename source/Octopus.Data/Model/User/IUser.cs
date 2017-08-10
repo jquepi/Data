@@ -23,6 +23,8 @@ namespace Octopus.Data.Model.User
         void SetExternalId(string externalId);
 
         void SetExternalSecurityGroups(string providerName, IEnumerable<string> groups, DateTimeOffset updatedDateTime);
+
         SecurityGroups GetExternalSecurityGroups(string providerName);
+        IEnumerable<string> GetExternalSecurityGroups();
     }
 }
