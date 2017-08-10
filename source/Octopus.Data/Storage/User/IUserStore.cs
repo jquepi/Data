@@ -19,5 +19,8 @@ namespace Octopus.Data.Storage.User
             Identity providerIdentity,
             CancellationToken cancellationToken,
             ProviderUserGroups providerGroups = null);
+
+        void EnableUser(string userId);
+        void DisableUser(string userId);
     }
 }
