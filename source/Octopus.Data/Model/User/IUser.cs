@@ -13,10 +13,6 @@ namespace Octopus.Data.Model.User
 
         Guid IdentificationToken { get; }
 
-        DateTimeOffset? SecurityGroupsLastUpdated { get; set; }
-
-        bool HasSecurityGroupIds { get; }
-
         bool IsService{ get; set; }
 
         bool IsActive { get; set; }
@@ -26,7 +22,7 @@ namespace Octopus.Data.Model.User
 
         void SetExternalId(string externalId);
 
-        void SetExternalSecurityGroups(IEnumerable<string> groups, DateTimeOffset updatedDateTime);
-        HashSet<string> GetExternalSecurityGroups();
+        void SetExternalSecurityGroups(string providerName, IEnumerable<string> groups, DateTimeOffset updatedDateTime);
+        SecurityGroups GetExternalSecurityGroups(string providerName);
     }
 }
