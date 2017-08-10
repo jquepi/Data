@@ -20,7 +20,7 @@ namespace Octopus.Data.Storage.User
             bool isService,
             CancellationToken cancellationToken);
 
-        void SetExternalSecurityGroups(string providerName, IEnumerable<string> groupsIds);
+        void SetExternalSecurityGroups(string userId, string providerName, IEnumerable<string> groupsIds);
 
         void EnableUser(string userId);
         void DisableUser(string userId);
