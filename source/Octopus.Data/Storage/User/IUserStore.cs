@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Octopus.Data.Model.User;
 
@@ -15,14 +14,10 @@ namespace Octopus.Data.Storage.User
             string username,
             string displayName,
             string emailAddress,
-            string externalId,
             string password,
             bool isService,
-            CancellationToken cancellationToken);
-
-        void SetExternalSecurityGroups(string userId, string providerName, IEnumerable<string> groupsIds);
-
-        void EnableUser(string userId);
-        void DisableUser(string userId);
+            Identity providerIdentity,
+            CancellationToken cancellationToken,
+            ProviderUserGroups providerGroups = null);
     }
 }
