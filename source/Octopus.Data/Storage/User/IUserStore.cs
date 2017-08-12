@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
 using Octopus.Data.Model.User;
 
 namespace Octopus.Data.Storage.User
@@ -12,6 +10,6 @@ namespace Octopus.Data.Storage.User
         IUser GetByEmailAddress(string emailAddress);
         IUser GetByIdentificationToken(Guid identificationToken);
 
-        IUser GetByIdentity(IdentityToMatch identityToMatch);
+        IUser GetByIdentity(Identity identityToMatch);
     }
 }
