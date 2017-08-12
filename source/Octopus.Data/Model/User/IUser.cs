@@ -12,8 +12,6 @@ namespace Octopus.Data.Model.User
         string DisplayName { get; set; }
         string EmailAddress { get; set; }
 
-        string ExternalId { get; }
-
         bool IsService{ get; set; }
 
         bool IsActive { get; set; }
