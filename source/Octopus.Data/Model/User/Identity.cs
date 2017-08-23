@@ -15,6 +15,6 @@ namespace Octopus.Data.Model.User
         public string Provider { get; }
 
         [JsonIgnore]
-        public abstract string SearchableIdentifier { get; }
+        public abstract string[] SearchableIdentifiers { get; }
     }
 }
