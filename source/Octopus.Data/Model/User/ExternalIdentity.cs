@@ -1,6 +1,6 @@
 ﻿namespace Octopus.Data.Model.User
 {
-    public class ExternalIdentity : Identity
+    public abstract class ExternalIdentity : Identity
     {
         protected ExternalIdentity()
         { }
