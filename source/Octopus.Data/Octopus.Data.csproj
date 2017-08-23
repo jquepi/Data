@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Nevermore.Contracts" Version="4.0.0-enh-odcm0053" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.0' ">
