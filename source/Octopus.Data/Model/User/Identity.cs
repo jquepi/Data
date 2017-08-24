@@ -19,6 +19,8 @@ namespace Octopus.Data.Model.User
         [JsonIgnore]
         public abstract string[] SearchableIdentifiers { get; }
 
+        public abstract IdentityResource ToResource();
+
         public bool Equals(Identity other)
         {
             if (ReferenceEquals(null, other)) return false;

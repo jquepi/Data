@@ -1,4 +1,5 @@
 ﻿using System;
+using Octopus.Data.Model.User;
 
 namespace Octopus.Data.Resources.Users
 {
@@ -14,5 +15,7 @@ namespace Octopus.Data.Resources.Users
         }
 
         protected abstract bool EqualsResource(IdentityResource resource);
+
+        public abstract Identity ToIdentity();
     }
 }
