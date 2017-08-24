@@ -10,7 +10,9 @@ namespace Octopus.Data.Resources.Users
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return GetHashCode() == other.GetHashCode();
+            return EqualsResource(other);
         }
+
+        protected abstract bool EqualsResource(IdentityResource resource);
     }
 }
