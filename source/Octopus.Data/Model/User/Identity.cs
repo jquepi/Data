@@ -47,6 +47,23 @@ namespace Octopus.Data.Model.User
             return this;
         }
 
+        public Identity WithClaim(string type, string value, bool isIdentifyingClaim, bool isServerSideOnly = false)
+        {
+            if (Claims.ContainsKey(type))
+            {
+                var claim = Claims[type];
+                claim.Value = value;
+                claim.IsIdentifyingClaim = isIdentifyingClaim;
+                claim.IsServerSideOnly = isServerSideOnly;
+            }
+            else
+            {
+                var claim = new IdentityClaim(value, isIdentifyingClaim, isServerSideOnly);
+                Claims.Add(type, claim);
+            }
+            return this;
+        }
+
         public bool Equals(Identity other)
         {
             if (ReferenceEquals(null, other)) return false;
