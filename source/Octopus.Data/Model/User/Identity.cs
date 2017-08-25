@@ -23,7 +23,7 @@ namespace Octopus.Data.Model.User
         public Dictionary<string, IdentityClaim> Claims { get; }
 
         [JsonIgnore]
-        public string[] SearchableIdentifiers => Claims.Where(kvp => kvp.Value.IsIdentifyingClaim).Select(kvp => kvp.Value.Value).ToArray();
+        public string[] SearchableIdentifiers => Claims.Where(kvp => kvp.Value.IsIdentifyingClaim).Select(kvp => Provider + ":" + kvp.Value.Value).ToArray();
 
         public IdentityResource ToResource()
         {
