@@ -18,7 +18,7 @@ namespace Octopus.Data.Model.User
             Provider = provider;
         }
 
-        public string Provider { get; }
+        public string Provider { get; set; }
 
         public Dictionary<string, IdentityClaim> Claims { get; }
 
