@@ -39,7 +39,7 @@ namespace Octopus.Data.Resources.Users
 
         internal IdentityResource WithClaims(Dictionary<string, IdentityClaim> claims)
         {
-            foreach (var kvp in claims)
+            foreach (var kvp in claims.Where(x => !x.Value.IsServerSideOnly))
             {
                 if (Claims.ContainsKey(kvp.Key))
                 {
