@@ -13,21 +13,21 @@ namespace Octopus.Data.Model.User
             Claims = new Dictionary<string, IdentityClaim>();
         }
 
-        public Identity(string provider) : this()
+        public Identity(string identityProviderName) : this()
         {
-            Provider = provider;
+            IdentityProviderName = identityProviderName;
         }
 
-        public string Provider { get; set; }
+        public string IdentityProviderName { get; set; }
 
         public Dictionary<string, IdentityClaim> Claims { get; }
 
         [JsonIgnore]
-        public string[] SearchableIdentifiers => Claims.Where(kvp => kvp.Value.IsIdentifyingClaim && !string.IsNullOrWhiteSpace(kvp.Value.Value)).Select(kvp => Provider + ":" + kvp.Value.Value).ToArray();
+        public string[] SearchableIdentifiers => Claims.Where(kvp => kvp.Value.IsIdentifyingClaim && !string.IsNullOrWhiteSpace(kvp.Value.Value)).Select(kvp => IdentityProviderName + ":" + kvp.Value.Value).ToArray();
 
         public IdentityResource ToResource()
         {
-            return new IdentityResource(Provider)
+            return new IdentityResource(IdentityProviderName)
                 .WithClaims(Claims);
         }
 
@@ -68,7 +68,7 @@ namespace Octopus.Data.Model.User
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            if (Provider != other.Provider) return false;
+            if (IdentityProviderName != other.IdentityProviderName) return false;
             return Claims.All(kvp =>
                 !kvp.Value.IsIdentifyingClaim ||
                 (other.Claims.ContainsKey(kvp.Key) && kvp.Value.Value == other.Claims[kvp.Key].Value));
@@ -77,7 +77,7 @@ namespace Octopus.Data.Model.User
         public bool Equals(IdentityResource other)
         {
             if (ReferenceEquals(null, other)) return false;
-            if (Provider != other.Provider) return false;
+            if (IdentityProviderName != other.IdentityProviderName) return false;
             return Claims.All(kvp =>
                 !kvp.Value.IsIdentifyingClaim ||
                 kvp.Value.IsServerSideOnly ||

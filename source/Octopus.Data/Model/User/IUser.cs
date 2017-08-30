@@ -23,7 +23,7 @@ namespace Octopus.Data.Model.User
         void SetPassword(string plainTextPassword);
         bool ValidatePassword(string plainTextPassword);
 
-        SecurityGroups GetSecurityGroups(string provider);
+        SecurityGroups GetSecurityGroups(string identityProviderName);
         IEnumerable<string> GetSecurityGroups();
     }
 }

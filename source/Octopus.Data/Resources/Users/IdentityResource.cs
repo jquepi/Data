@@ -12,12 +12,12 @@ namespace Octopus.Data.Resources.Users
             Claims = new Dictionary<string, IdentityClaimResource>();
         }
 
-        public IdentityResource(string provider) : this()
+        public IdentityResource(string identityProviderName) : this()
         {
-            Provider = provider;
+            IdentityProviderName = identityProviderName;
         }
 
-        public string Provider { get; set; }
+        public string IdentityProviderName { get; set; }
 
         public Dictionary<string, IdentityClaimResource> Claims { get; }
 
@@ -25,7 +25,7 @@ namespace Octopus.Data.Resources.Users
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            if (Provider != other.Provider) return false;
+            if (IdentityProviderName != other.IdentityProviderName) return false;
             return Claims.All(kvp =>
                 !kvp.Value.IsIdentifyingClaim || 
                 (other.Claims.ContainsKey(kvp.Key) && kvp.Value.Value == other.Claims[kvp.Key].Value));
@@ -33,7 +33,7 @@ namespace Octopus.Data.Resources.Users
 
         public Identity ToIdentity()
         {
-            return new Identity(Provider)
+            return new Identity(IdentityProviderName)
                 .WithClaims(Claims);
         }
 
