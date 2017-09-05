@@ -9,20 +9,20 @@ namespace Octopus.Data.Model.User
         string Username { get; }
         Guid IdentificationToken { get; }
 
-        string DisplayName { get; }
-        string EmailAddress { get; }
+        string DisplayName { get; set; }
+        string EmailAddress { get; set; }
 
-        bool IsService { get; }
+        bool IsService{ get; set; }
 
-        bool IsActive { get; }
-        
+        bool IsActive { get; set; }
+
         ReferenceCollection ExternalIdentifiers { get; }
-        
+
         HashSet<Identity> Identities { get; }
 
-        SecurityGroups GetSecurityGroups(string provider);
-        
         void SetPassword(string plainTextPassword);
         bool ValidatePassword(string plainTextPassword);
+        SecurityGroups GetSecurityGroups(string identityProviderName);
+        IEnumerable<string> GetSecurityGroups();
     }
 }

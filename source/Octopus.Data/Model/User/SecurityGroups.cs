@@ -2,7 +2,7 @@ using System;
 
 namespace Octopus.Data.Model.User
 {
-    public class SecurityGroups
+    public struct SecurityGroups
     {
         public string[] GroupIds { get; set; }
         public DateTimeOffset? LastUpdated { get; set; }
