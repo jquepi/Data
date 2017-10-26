@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Attributes\Class1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Nevermore.Contracts" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
