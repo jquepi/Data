@@ -19,9 +19,6 @@ namespace Octopus.Data.Resources
         [JsonProperty(Order = 1)]
         public string ItemType => typeof(TResource).Name.Replace("Resource", "");
 
-        [JsonProperty(Order = 3)]
-        public bool IsStale { get; set; }
-
         [JsonProperty(Order = 4)]
         public int TotalResults { get; set; }
 
