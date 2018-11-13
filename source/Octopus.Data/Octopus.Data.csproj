@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nevermore.Contracts" Version="4.0.0" />
+    <PackageReference Include="Nevermore.Contracts" Version="8.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
  
