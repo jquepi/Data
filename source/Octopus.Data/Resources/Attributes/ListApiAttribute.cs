@@ -9,7 +9,7 @@ namespace Octopus.Data.Resources.Attributes
     {
         public readonly Href ApiEndpoint;
 
-        public ListApiAttribute(SelectMode selectMode, Href apiEndpoint)
+        public ListApiAttribute(SelectMode selectMode, string apiEndpoint)
             : base(selectMode)
         {
             ApiEndpoint = apiEndpoint;
