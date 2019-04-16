@@ -71,7 +71,7 @@ namespace Octopus.Data.Model.User
             if (IdentityProviderName != other.IdentityProviderName) return false;
             return Claims.All(kvp =>
                 !kvp.Value.IsIdentifyingClaim ||
-                (other.Claims.ContainsKey(kvp.Key) && kvp.Value.Value == other.Claims[kvp.Key].Value));
+                (other.Claims.ContainsKey(kvp.Key) && kvp.Value.Value.Equals(other.Claims[kvp.Key].Value, StringComparison.OrdinalIgnoreCase)));
         }
 
         public bool Equals(IdentityResource other)
@@ -81,7 +81,7 @@ namespace Octopus.Data.Model.User
             return Claims.All(kvp =>
                 !kvp.Value.IsIdentifyingClaim ||
                 kvp.Value.IsServerSideOnly ||
-                (other.Claims.ContainsKey(kvp.Key) && kvp.Value.Value == other.Claims[kvp.Key].Value));
+                (other.Claims.ContainsKey(kvp.Key) && kvp.Value.Value.Equals(other.Claims[kvp.Key].Value, StringComparison.OrdinalIgnoreCase)));
         }
 
         public override bool Equals(object obj)
