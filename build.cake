@@ -51,7 +51,6 @@ Task("__Default")
     .IsDependentOn("__Restore")
     .IsDependentOn("__Build")
     .IsDependentOn("__Pack")
-    .IsDependentOn("__Publish")
     .IsDependentOn("__CopyToLocalPackages");
 
 Task("__Clean")
@@ -84,24 +83,6 @@ Task("__Pack")
             NoBuild = true,
             ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
         });
-});
-
-Task("__Publish")
-    .WithCriteria(BuildSystem.IsRunningOnTeamCity)
-    .Does(() =>
-{
-    NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
-        Source = "https://f.feedz.io/octopus-deploy/dependencies/nuget",
-        ApiKey = EnvironmentVariable("FeedzIoApiKey")
-	});
-	
-    if (string.IsNullOrWhiteSpace(gitVersionInfo.PreReleaseLabel))
-    {
-        NuGetPush($"{artifactsDir}/{packageName}.{nugetVersion}.nupkg", new NuGetPushSettings {
-            Source = "https://www.nuget.org/api/v2/package",
-            ApiKey = EnvironmentVariable("NuGetApiKey")
-        });
-    }
 });
 
 Task("__CopyToLocalPackages")
