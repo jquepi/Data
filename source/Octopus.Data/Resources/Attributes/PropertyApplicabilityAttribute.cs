@@ -6,7 +6,7 @@ namespace Octopus.Data.Resources.Attributes
     /// Use this attribute to specify whether a given property is applicable based on the value of another property
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyApplicabilityAttribute : Attribute
+    public abstract class PropertyApplicabilityAttribute : Attribute
     {
         internal PropertyApplicabilityAttribute(PropertyApplicabilityMode mode, string propertyName, object propertyValue)
         {
