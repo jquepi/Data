@@ -8,48 +8,45 @@ namespace Octopus.Data.Resources.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public abstract class PropertyApplicabilityAttribute : Attribute
     {
-        internal PropertyApplicabilityAttribute(PropertyApplicabilityMode mode, string propertyName, object propertyValue)
+        internal PropertyApplicabilityAttribute(PropertyApplicabilityMode mode, string dependsOnPropertyName, object dependsOnPropertyValue)
         {
             Mode = mode;
-            PropertyName = propertyName;
-            PropertyValue = propertyValue;
+            DependsOnPropertyName = dependsOnPropertyName;
+            DependsOnPropertyValue = dependsOnPropertyValue;
         }
         
         public PropertyApplicabilityMode Mode { get; }
         
-        /// <summary>
-        /// The name of the property that the property the attribute has been applied to depends on
-        /// </summary>
-        public string PropertyName { get; }
+        public string DependsOnPropertyName { get; }
         
-        public object PropertyValue { get; }
+        public object DependsOnPropertyValue { get; }
     }
 
     public class ApplicableWhenAnyValueAttribute : PropertyApplicabilityAttribute
     {
-        public ApplicableWhenAnyValueAttribute(string propertyName) : 
-            base(PropertyApplicabilityMode.ApplicableIfHasAnyValue, propertyName, null)
+        public ApplicableWhenAnyValueAttribute(string dependsOnPropertyName) : 
+            base(PropertyApplicabilityMode.ApplicableIfHasAnyValue, dependsOnPropertyName, null)
         {}
     }
 
     public class ApplicableWhenNoValueAttribute : PropertyApplicabilityAttribute
     {
-        public ApplicableWhenNoValueAttribute(string propertyName) : 
-            base(PropertyApplicabilityMode.ApplicableIfHasNoValue, propertyName, null)
+        public ApplicableWhenNoValueAttribute(string dependsOnPropertyName) : 
+            base(PropertyApplicabilityMode.ApplicableIfHasNoValue, dependsOnPropertyName, null)
         {}
     }
 
     public class ApplicableWhenSpecificValueAttribute : PropertyApplicabilityAttribute
     {
-        public ApplicableWhenSpecificValueAttribute(string propertyName, object propertyValue) : 
-            base(PropertyApplicabilityMode.ApplicableIfSpecificValue, propertyName, propertyValue)
+        public ApplicableWhenSpecificValueAttribute(string dependsOnPropertyName, object dependsOnPropertyValue) : 
+            base(PropertyApplicabilityMode.ApplicableIfSpecificValue, dependsOnPropertyName, dependsOnPropertyValue)
         {}
     }
 
     public class ApplicableWhenNotSpecificValueAttribute : PropertyApplicabilityAttribute
     {
-        public ApplicableWhenNotSpecificValueAttribute(string propertyName, object propertyValue) : 
-            base(PropertyApplicabilityMode.ApplicableIfNotSpecificValue, propertyName, propertyValue)
+        public ApplicableWhenNotSpecificValueAttribute(string dependsOnPropertyName, object dependsOnPropertyValue) : 
+            base(PropertyApplicabilityMode.ApplicableIfNotSpecificValue, dependsOnPropertyName, dependsOnPropertyValue)
         {}
     }
 }
