@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <VersionPrefix>0.0.0</VersionPrefix>
-    <TargetFramework>netstandard1.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Octopus.Data</AssemblyName>
     <PackageId>Octopus.Data</PackageId>
     <Authors>Octopus Deploy</Authors>
