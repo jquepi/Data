@@ -10,6 +10,8 @@ namespace Octopus.Data.Storage.Configuration
 
         void Create<TDocument>(TDocument document) where TDocument : class, IId;
         void Update<TDocument>(TDocument document) where TDocument : class, IId;
+        void Delete<TDocument>(TDocument document) where TDocument : class, IId;
+        void DeleteById<TDocument>(string documentId) where TDocument : class, IId;
 
         void CreateOrUpdate<TDocument>(string id, Action<TDocument> assignPropertiesCallback) where TDocument : class, IOverridableId, new();
     }
