@@ -41,4 +41,12 @@ namespace Octopus.Data.Model
             return (Value != null ? Value.GetHashCode() : 0);
         }
     }
+
+    public static class EncryptedStringExtensions
+    {
+        public static EncryptedString ToEncryptedString(this string s)
+        {
+            return new EncryptedString(s);
+        }
+    }
 }
