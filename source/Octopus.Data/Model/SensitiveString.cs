@@ -2,19 +2,19 @@ using System;
 
 namespace Octopus.Data.Model
 {
-    public class EncryptedString : IEquatable<EncryptedString>, IEquatable<string>
+    public class SensitiveString : IEquatable<SensitiveString>, IEquatable<string>
     {
-        public EncryptedString()
+        public SensitiveString()
         {}
         
-        public EncryptedString(string value)
+        public SensitiveString(string value)
         {
             Value = value;
         }
 
         public string Value { get; set; }
 
-        public bool Equals(EncryptedString other)
+        public bool Equals(SensitiveString other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -33,7 +33,7 @@ namespace Octopus.Data.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((EncryptedString) obj);
+            return Equals((SensitiveString) obj);
         }
 
         public override int GetHashCode()
@@ -42,11 +42,11 @@ namespace Octopus.Data.Model
         }
     }
 
-    public static class EncryptedStringExtensions
+    public static class SensitiveStringExtensions
     {
-        public static EncryptedString ToEncryptedString(this string s)
+        public static SensitiveString ToSensitiveString(this string s)
         {
-            return new EncryptedString(s);
+            return new SensitiveString(s);
         }
     }
 }
