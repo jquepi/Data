@@ -1,4 +1,5 @@
 ﻿using System;
+using Octopus.Data.Model;
 
 namespace Octopus.Data.Resources
 {
@@ -10,6 +11,10 @@ namespace Octopus.Data.Resources
         public static implicit operator SensitiveValue(string newValue)
         {
             return new SensitiveValue { HasValue = newValue != null };
+        }
+        public static implicit operator SensitiveValue(SensitiveString newValue)
+        {
+            return new SensitiveValue { HasValue = newValue?.Value != null };
         }
 
         public bool Equals(SensitiveValue other)
