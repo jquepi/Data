@@ -1,8 +1,7 @@
-﻿using Nevermore.Contracts;
-
+﻿
 namespace Octopus.Data.Model
 {
-    public interface IOverridableId : IId
+    public interface IOverridableId
     {
         void SetId(string id);
     }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nevermore.Contracts;
 
 namespace Octopus.Data.Model.User
 {
-    public interface IUser : IId
+    public interface IUser
     {
         string Username { get; }
         Guid IdentificationToken { get; }
@@ -15,8 +14,6 @@ namespace Octopus.Data.Model.User
         bool IsService{ get; set; }
 
         bool IsActive { get; set; }
-
-        ReferenceCollection ExternalIdentifiers { get; }
 
         HashSet<Identity> Identities { get; }
 
