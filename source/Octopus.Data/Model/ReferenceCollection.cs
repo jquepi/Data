@@ -25,6 +25,11 @@ namespace Octopus.Data.Model
         {
             return string.Join(", ", this);
         }
+
+        public new static ReferenceCollection One(string item)
+        {
+            return new ReferenceCollection { item };
+        }
     }
 
     public class ReferenceCollection<T> : HashSet<T>
