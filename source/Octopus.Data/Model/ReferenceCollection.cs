@@ -21,12 +21,17 @@ namespace Octopus.Data.Model
         {
         }
 
+        public ReferenceCollection Clone()
+        {
+            return new ReferenceCollection(this);
+        }
+
         public override string ToString()
         {
             return string.Join(", ", this);
         }
 
-        public new static ReferenceCollection One(string item)
+        public static ReferenceCollection One(string item)
         {
             return new ReferenceCollection { item };
         }
@@ -54,19 +59,9 @@ namespace Octopus.Data.Model
             }
         }
 
-        public ReferenceCollection<T> Clone()
-        {
-            return new ReferenceCollection<T>(this);
-        }
-
         public override string ToString()
         {
             return string.Join(", ", this.Select(x => x.ToString()));
-        }
-
-        public static ReferenceCollection<T> One(T item)
-        {
-            return new ReferenceCollection<T> { item };
         }
     }
 }
