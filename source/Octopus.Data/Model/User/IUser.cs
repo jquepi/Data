@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Octopus.Data.Model.User
 {
-    public interface IUser : IDocument
+    public interface IUser : IId
     {
         string Username { get; }
         Guid IdentificationToken { get; }
