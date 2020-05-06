@@ -40,6 +40,24 @@ namespace Octopus.Data.Model
         {
             return (Value != null ? Value.GetHashCode() : 0);
         }
+
+        public static bool operator ==(SensitiveString s1, SensitiveString s2)
+        {
+            return s1?.Value == s2?.Value;
+        }
+        public static bool operator !=(SensitiveString s1, SensitiveString s2)
+        {
+            return s1?.Value != s2?.Value;
+        }
+
+        public static bool operator ==(SensitiveString s1, string s2)
+        {
+            return s1?.Value == s2;
+        }
+        public static bool operator !=(SensitiveString s1, string s2)
+        {
+            return s1?.Value != s2;
+        }
     }
 
     public static class SensitiveStringExtensions
