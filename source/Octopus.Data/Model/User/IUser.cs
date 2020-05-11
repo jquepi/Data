@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nevermore.Contracts;
 
 namespace Octopus.Data.Model.User
 {
@@ -15,8 +14,6 @@ namespace Octopus.Data.Model.User
         bool IsService{ get; set; }
 
         bool IsActive { get; set; }
-
-        ReferenceCollection ExternalIdentifiers { get; }
 
         HashSet<Identity> Identities { get; }
 
