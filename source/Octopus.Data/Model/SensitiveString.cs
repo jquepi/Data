@@ -1,14 +1,21 @@
 using System;
+using System.Diagnostics;
 
 namespace Octopus.Data.Model
 {
+    [DebuggerDisplay("Sensitive: {Value}")]
     public class SensitiveString : IEquatable<SensitiveString>, IEquatable<string>
     {
         public SensitiveString()
         {}
-        
+
         public SensitiveString(string value)
         {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value),
+                    "SensitiveString values should never be null. If the value you want to communicate is null then " +
+                    "just pass a null rather than a SensitiveString wrapping a null.");
+
             Value = value;
         }
 
