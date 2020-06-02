@@ -6,9 +6,6 @@ namespace Octopus.Data.Model
     [DebuggerDisplay("Sensitive: {Value}")]
     public class SensitiveString : IEquatable<SensitiveString>, IEquatable<string>
     {
-        public SensitiveString()
-        {}
-
         public SensitiveString(string value)
         {
             if (value == null)
@@ -19,7 +16,7 @@ namespace Octopus.Data.Model
             Value = value;
         }
 
-        public string Value { get; set; }
+        public string Value { get; }
 
         public bool Equals(SensitiveString other)
         {
