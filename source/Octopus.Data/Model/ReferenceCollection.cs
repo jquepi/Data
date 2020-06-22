@@ -39,11 +39,11 @@ namespace Octopus.Data.Model
 
     public class ReferenceCollection<T> : HashSet<T>
     {
-        public ReferenceCollection(IEqualityComparer<T> comparer = null) : base(comparer)
+        public ReferenceCollection(IEqualityComparer<T>? comparer = null) : base(comparer)
         {
         }
 
-        public ReferenceCollection(IEnumerable<T> values, IEqualityComparer<T> comparer = null) : base(values, comparer)
+        public ReferenceCollection(IEnumerable<T> values, IEqualityComparer<T>? comparer = null) : base(values, comparer)
         {
         }
 
@@ -61,7 +61,7 @@ namespace Octopus.Data.Model
 
         public override string ToString()
         {
-            return string.Join(", ", this.Select(x => x.ToString()));
+            return string.Join(", ", this.Where(x => x != null).Select(x => x?.ToString()));
         }
     }
 }

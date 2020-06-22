@@ -2,9 +2,6 @@ namespace Octopus.Data.Model.User
 {
     public class IdentityClaim
     {
-        public IdentityClaim()
-        {}
-
         public IdentityClaim(string value, bool isIdentifyingClaim, bool isServerSideOnly = false)
         {
             Value = value;

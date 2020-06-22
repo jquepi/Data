@@ -8,17 +8,13 @@ namespace Octopus.Data.Model.User
 {
     public sealed class Identity : IEquatable<Identity>, IEquatable<IdentityResource>
     {
-        public Identity()
+        public Identity(string identityProviderName)
         {
+            IdentityProviderName = identityProviderName;
             Claims = new Dictionary<string, IdentityClaim>();
         }
 
-        public Identity(string identityProviderName) : this()
-        {
-            IdentityProviderName = identityProviderName;
-        }
-
-        public string IdentityProviderName { get; set; }
+        public string IdentityProviderName { get; }
 
         public Dictionary<string, IdentityClaim> Claims { get; }
 

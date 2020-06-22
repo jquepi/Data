@@ -6,7 +6,7 @@ namespace Octopus.Data.Model
     [DebuggerDisplay("Sensitive: {Value}")]
     public class SensitiveString : IEquatable<SensitiveString>, IEquatable<string>
     {
-        public SensitiveString(string value)
+        public SensitiveString(string? value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value),
@@ -66,7 +66,7 @@ namespace Octopus.Data.Model
 
     public static class SensitiveStringExtensions
     {
-        public static SensitiveString ToSensitiveString(this string s)
+        public static SensitiveString? ToSensitiveString(this string s)
         {
             if (s == null)
                 return null;

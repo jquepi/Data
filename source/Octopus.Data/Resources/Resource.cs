@@ -21,7 +21,7 @@ namespace Octopus.Data.Resources
         /// Gets or sets a unique identifier for this resource.
         /// </summary>
         [JsonProperty(Order = -100, NullValueHandling = NullValueHandling.Ignore)]
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the date/time that this resource was last modified.
@@ -33,7 +33,7 @@ namespace Octopus.Data.Resources
         /// Gets or sets the username of the user who last modified this resource.
         /// </summary>
         [JsonProperty(Order = 1002, NullValueHandling = NullValueHandling.Ignore)]
-        public string LastModifiedBy { get; set; }
+        public string LastModifiedBy { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets a dictionary of links to other related resources. These links can be used to navigate the resources on
