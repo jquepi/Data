@@ -14,7 +14,7 @@ namespace Octopus.Data
 
     public class Result : IResult
     {
-        private string[] errors;
+        private string[] errors = Array.Empty<string>();
 
         private Result()
         {
@@ -31,21 +31,21 @@ namespace Octopus.Data
 
         public static Result Failed(params string[] errors)
         {
-            return new Result() { errors = errors.ToArray() };
+            return new Result { errors = errors.ToArray() };
         }
         public static Result Failed(IReadOnlyList<string> errors)
         {
-            return new Result() { errors = errors.ToArray() };
+            return new Result { errors = errors.ToArray() };
         }
 
         public static Result Failed(params IResult[] becauseOf)
         {
-            return new Result() { errors = becauseOf.SelectMany(b => b.Errors).ToArray() };
+            return new Result { errors = becauseOf.SelectMany(b => b.Errors).ToArray() };
         }
 
         public static Result Success()
         {
-            return new Result() { WasSuccessful = true };
+            return new Result { WasSuccessful = true };
         }
 
         public static Result From(params Result[] results)
@@ -57,21 +57,21 @@ namespace Octopus.Data
         }
     }
 
+#nullable disable
     public class Result<T> : IResult
     {
         private T value;
-        private string[] errors;
+        private string[] errors = Array.Empty<string>();
 
         private Result()
         {
-
         }
 
         public bool WasSuccessful { get; private set; }
 
-        public string[] Errors => errors?.ToArray();
+        public string[] Errors => errors.ToArray();
 
-        public string ErrorString => errors != null ? string.Join(Environment.NewLine, errors) : null;
+        public string ErrorString => errors != null && errors.Any() ? string.Join(Environment.NewLine, errors) : string.Empty;
 
         public T Value
         {
@@ -138,4 +138,6 @@ namespace Octopus.Data
                 ? Success(result.Value)
                 : Failed(result);
         }
-    }}
+    }
+#nullable enable
+}
