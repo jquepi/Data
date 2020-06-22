@@ -15,10 +15,13 @@
     <LangVersion>default</LangVersion>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Nullable>enable</Nullable>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Octopus.TinyTypes" Version="0.1.18" />
   </ItemGroup>
  
 </Project>

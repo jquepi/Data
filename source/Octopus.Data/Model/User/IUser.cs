@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Octopus.Data.Model.User
 {
-    public interface IUser : IId
+    public interface IUser : IId<UserId>
     {
         string Username { get; }
         Guid IdentificationToken { get; }
@@ -21,5 +21,12 @@ namespace Octopus.Data.Model.User
         bool ValidatePassword(string plainTextPassword);
         SecurityGroups GetSecurityGroups(string identityProviderName);
         IEnumerable<string> GetSecurityGroups();
+    }
+
+    public class UserId : TypedId
+    {
+        public UserId(string value) : base(value)
+        {
+        }
     }
 }

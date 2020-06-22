@@ -6,4 +6,10 @@ namespace Octopus.Data.Model
     {
         string Id { get; }
     }
+
+    public interface IId<out TId>
+        where TId : TypedId
+    {
+        TId Id { get; }
+    }
 }
