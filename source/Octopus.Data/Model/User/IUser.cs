@@ -22,11 +22,4 @@ namespace Octopus.Data.Model.User
         SecurityGroups GetSecurityGroups(string identityProviderName);
         IEnumerable<string> GetSecurityGroups();
     }
-
-    public class UserId : TypedId
-    {
-        public UserId(string value) : base(value)
-        {
-        }
-    }
 }
