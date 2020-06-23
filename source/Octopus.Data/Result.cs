@@ -66,7 +66,7 @@ namespace Octopus.Data
         {
         }
 
-        public bool WasSuccessful { get; private set; }
+        public bool WasSuccessful { get; protected set; }
 
         public string[] Errors => errors.ToArray();
 
@@ -80,6 +80,7 @@ namespace Octopus.Data
                     throw new Exception("No value as the operation was not successful");
                 return value;
             }
+            protected set => this.value = value;
         }
 
         public bool WasFailure => !WasSuccessful;
@@ -106,7 +107,7 @@ namespace Octopus.Data
 
         public static Result<T> Success(T value)
         {
-            return new Result<T>() { WasSuccessful = true, value = value };
+            return new Result<T>() { WasSuccessful = true, Value = value };
         }
 
         public static implicit operator Result<T>(T value)
