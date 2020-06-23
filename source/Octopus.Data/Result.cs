@@ -62,7 +62,7 @@ namespace Octopus.Data
         private T value;
         private string[] errors = Array.Empty<string>();
 
-        private Result()
+        protected Result()
         {
         }
 
