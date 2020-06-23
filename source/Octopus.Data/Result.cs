@@ -16,9 +16,8 @@ namespace Octopus.Data
     {
         private string[] errors = Array.Empty<string>();
 
-        private Result()
+        protected Result()
         {
-
         }
 
         public bool WasSuccessful { get; private set; }
