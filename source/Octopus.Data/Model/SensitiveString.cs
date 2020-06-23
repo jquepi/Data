@@ -66,11 +66,9 @@ namespace Octopus.Data.Model
 
     public static class SensitiveStringExtensions
     {
-        public static SensitiveString? ToSensitiveString(this string s)
+        public static SensitiveString? ToSensitiveString(this string? s)
         {
-            if (s == null)
-                return null;
-            return new SensitiveString(s);
+            return s == null ? null : new SensitiveString(s);
         }
     }
 }
