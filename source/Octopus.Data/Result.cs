@@ -60,7 +60,6 @@ namespace Octopus.Data
     public class Result<T> : IResult
     {
         private T value;
-        private string[] errors = Array.Empty<string>();
 
         protected Result()
         {
@@ -68,9 +67,9 @@ namespace Octopus.Data
 
         public bool WasSuccessful { get; protected set; }
 
-        public string[] Errors => errors.ToArray();
+        public string[] Errors { get; protected set; } = Array.Empty<string>();
 
-        public string ErrorString => errors != null && errors.Any() ? string.Join(Environment.NewLine, errors) : string.Empty;
+        public string ErrorString => Errors != null && Errors.Any() ? string.Join(Environment.NewLine, Errors) : string.Empty;
 
         public T Value
         {
@@ -87,22 +86,22 @@ namespace Octopus.Data
 
         public static Result<T> Failed()
         {
-            return new Result<T>() { errors = new string[0] };
+            return new Result<T>() { Errors = new string[0] };
         }
 
         public static Result<T> Failed(params string[] errors)
         {
-            return new Result<T>() { errors = errors.ToArray() };
+            return new Result<T>() { Errors = errors.ToArray() };
         }
 
         public static Result<T> Failed(params IResult[] becauseOf)
         {
-            return new Result<T>() { errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
+            return new Result<T>() { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
         }
 
         public static Result<T> Failed(IReadOnlyCollection<IResult> becauseOf)
         {
-            return new Result<T>() { errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
+            return new Result<T>() { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
         }
 
         public static Result<T> Success(T value)
