@@ -18,14 +18,14 @@ namespace Octopus.Data.Model
 
         public string Value { get; }
 
-        public bool Equals(SensitiveString? other)
+        public bool Equals(SensitiveString other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return Value == other.Value;
         }
 
-        public bool Equals(string? other)
+        public bool Equals(string other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -45,22 +45,13 @@ namespace Octopus.Data.Model
             return (Value != null ? Value.GetHashCode() : 0);
         }
 
-        public static bool operator ==(SensitiveString? s1, SensitiveString? s2)
+        public static bool operator ==(SensitiveString s1, string s2)
         {
-            return s1?.Value == s2?.Value;
+            return s1.Value == s2;
         }
-        public static bool operator !=(SensitiveString? s1, SensitiveString? s2)
+        public static bool operator !=(SensitiveString s1, string s2)
         {
-            return s1?.Value != s2?.Value;
-        }
-
-        public static bool operator ==(SensitiveString? s1, string? s2)
-        {
-            return s1?.Value == s2;
-        }
-        public static bool operator !=(SensitiveString? s1, string? s2)
-        {
-            return s1?.Value != s2;
+            return s1.Value != s2;
         }
     }
 

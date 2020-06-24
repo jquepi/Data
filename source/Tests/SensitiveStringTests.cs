@@ -7,16 +7,16 @@ namespace Tests
     public class SensitiveStringTests
     {
         [Test]
-        public void ComparingSensitiveStringsAreEqualWorks()
+        public void ComparingSensitiveStringPointersAreEqualWorks()
         {
             var a = "Test Value".ToSensitiveString();
             var b = "Test Value".ToSensitiveString();
             
-            Assert.IsTrue(a == b);
+            Assert.IsFalse(a == b);
         }
 
         [Test]
-        public void ComparingSensitiveStringsAreNotEqualWorks()
+        public void ComparingSensitiveStringPointersAreNotEqualWorks()
         {
             var a = "Test Value".ToSensitiveString();
             var b = "Test Value2".ToSensitiveString();
@@ -38,6 +38,14 @@ namespace Tests
             var a = "Test Value".ToSensitiveString();
             
             Assert.IsTrue(a != "Test Value2");
+        }
+        
+        [Test]
+        public void ComparingSensitiveStringsToNullWorks()
+        {
+            var a = "Test Value".ToSensitiveString();
+            
+            Assert.IsFalse(a == null);
         }
     }
 }
