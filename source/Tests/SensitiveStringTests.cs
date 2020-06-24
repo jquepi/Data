@@ -12,7 +12,7 @@ namespace Tests
             var a = "Test Value".ToSensitiveString();
             var b = "Test Value".ToSensitiveString();
             
-            Assert.IsFalse(a == b);
+            Assert.IsTrue(a == b);
         }
 
         [Test]
@@ -46,6 +46,14 @@ namespace Tests
             var a = "Test Value".ToSensitiveString();
             
             Assert.IsFalse(a == null);
+        }
+        
+        [Test]
+        public void ComparingNullSensitiveStringsToNullWorks()
+        {
+            SensitiveString? a = null;
+            
+            Assert.IsTrue(a == null);
         }
     }
 }
