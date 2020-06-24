@@ -39,9 +39,9 @@ namespace Octopus.Data.Model
 
     public static class SensitiveStringExtensionMethods
     {
-        public static SensitiveString? ToSensitiveString(this string? s)
+        public static SensitiveString ToSensitiveString(this string s)
         {
-            return s == null ? null : new SensitiveString(s);
+            return new SensitiveString(s);
         }
     }
 }
