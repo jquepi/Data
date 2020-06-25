@@ -20,7 +20,20 @@ namespace Octopus.Data.Model
 
         public override int GetHashCode()
         {
-            return (Value != null ? Value.GetHashCode() : 0);
+            return Value.GetHashCode();
+        }
+
+        protected bool Equals(SensitiveString? other)
+        {
+            return Value == other?.Value;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((SensitiveString) obj);
         }
 
         public static bool operator ==(SensitiveString? s1, object? s2)

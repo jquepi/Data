@@ -42,10 +42,11 @@ namespace Tests
             Assert.IsTrue(identity1.Equals(identity2));
         }
 
-        Identity CreateIdentity(string email, bool emailIsIdentifying, string upn, string displayName)
+        Identity CreateIdentity(string? email, bool emailIsIdentifying, string upn, string displayName)
         {
             var identity = new Identity("Test Provider");
-            identity.Claims.Add("email", new IdentityClaim(email, emailIsIdentifying));
+            if (email != null)
+                identity.Claims.Add("email", new IdentityClaim(email, emailIsIdentifying));
             identity.Claims.Add("upn", new IdentityClaim(upn, true));
             return identity;
         }
