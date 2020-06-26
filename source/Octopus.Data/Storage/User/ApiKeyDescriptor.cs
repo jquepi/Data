@@ -13,7 +13,7 @@
             ApiKey = apiKey;
         }
 
-        public string Purpose { get; private set; }
+        public string Purpose { get; }
         public string ApiKey { get; set; }
     }
 }

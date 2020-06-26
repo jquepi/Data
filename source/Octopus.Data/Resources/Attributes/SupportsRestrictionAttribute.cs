@@ -8,7 +8,7 @@ namespace Octopus.Data.Resources.Attributes
     {
         public SupportsRestrictionAttribute(params string[] scopes)
         {
-            this.Scopes = (IList<string>)scopes ?? new List<string>();
+            Scopes = (IList<string>) scopes ?? new List<string>();
         }
 
         public IList<string> Scopes { get; }

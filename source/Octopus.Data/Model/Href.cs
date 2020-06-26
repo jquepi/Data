@@ -4,16 +4,11 @@ namespace Octopus.Data.Model
 {
     public class Href : IEquatable<Href>
     {
-        readonly string link;
+        private readonly string link;
 
         public Href(string link)
         {
             this.link = link;
-        }
-
-        public string AsString()
-        {
-            return link;
         }
 
         public bool Equals(Href other)
@@ -21,17 +16,22 @@ namespace Octopus.Data.Model
             return string.Equals(link, other.link);
         }
 
+        public string AsString()
+        {
+            return link;
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Href)obj);
+            return Equals((Href) obj);
         }
 
         public override int GetHashCode()
         {
-            return (link != null ? link.GetHashCode() : 0);
+            return link != null ? link.GetHashCode() : 0;
         }
 
         public override string ToString()
@@ -49,7 +49,7 @@ namespace Octopus.Data.Model
             return !Equals(left, right);
         }
 
-        public static implicit operator String(Href href)
+        public static implicit operator string(Href href)
         {
             return href.link;
         }

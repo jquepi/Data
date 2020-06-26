@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 [assembly: AssemblyDescription("Data interfaces for Octopus, an opinionated deployment solution for .NET applications")]
 [assembly: AssemblyCompany("Octopus Deploy")]

@@ -19,7 +19,8 @@ namespace Tests
         }
 
         [Test]
-        public void EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenExistingIdentityHasIdentifyingTrueAndNullValue()
+        public void
+            EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenExistingIdentityHasIdentifyingTrueAndNullValue()
         {
             var identity1 = CreateIdentity(null, true, "foo@test.com", "foo");
             var identity2 = CreateIdentity("foo@test.com", false, "foo@test.com", "foo");
@@ -35,14 +36,15 @@ namespace Tests
         }
 
         [Test]
-        public void EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenOtherIdentityHasIdentifyingTrueAndNullValue()
+        public void
+            EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenOtherIdentityHasIdentifyingTrueAndNullValue()
         {
             var identity1 = CreateIdentity("foo@test.com", false, "foo@test.com", "foo");
             var identity2 = CreateIdentity(null, true, "foo@test.com", "foo");
             Assert.IsTrue(identity1.Equals(identity2));
         }
 
-        Identity CreateIdentity(string email, bool emailIsIdentifying, string upn, string displayName)
+        private Identity CreateIdentity(string email, bool emailIsIdentifying, string upn, string displayName)
         {
             var identity = new Identity("Test Provider");
             identity.Claims.Add("email", new IdentityClaim(email, emailIsIdentifying));

@@ -12,7 +12,7 @@ namespace Octopus.Data.Model
         }
 
         public ReferenceCollection(string singleValue)
-            : this(new[] { singleValue })
+            : this(new[] {singleValue})
         {
         }
 
@@ -33,7 +33,7 @@ namespace Octopus.Data.Model
 
         public static ReferenceCollection One(string item)
         {
-            return new ReferenceCollection { item };
+            return new ReferenceCollection {item};
         }
     }
 
@@ -53,10 +53,7 @@ namespace Octopus.Data.Model
 
             if (newItems == null) return;
 
-            foreach (var item in newItems)
-            {
-                Add(item);
-            }
+            foreach (var item in newItems) Add(item);
         }
 
         public override string ToString()

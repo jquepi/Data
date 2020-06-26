@@ -3,7 +3,8 @@
     public class IdentityClaimResource
     {
         public IdentityClaimResource()
-        { }
+        {
+        }
 
         public IdentityClaimResource(string value, bool isIdentifyingClaim)
         {

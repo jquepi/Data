@@ -36,19 +36,20 @@ namespace Octopus.Data.Model
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((SensitiveString) obj);
         }
 
         public override int GetHashCode()
         {
-            return (Value != null ? Value.GetHashCode() : 0);
+            return Value != null ? Value.GetHashCode() : 0;
         }
 
         public static bool operator ==(SensitiveString s1, SensitiveString s2)
         {
             return s1?.Value == s2?.Value;
         }
+
         public static bool operator !=(SensitiveString s1, SensitiveString s2)
         {
             return s1?.Value != s2?.Value;
@@ -58,6 +59,7 @@ namespace Octopus.Data.Model
         {
             return s1?.Value == s2;
         }
+
         public static bool operator !=(SensitiveString s1, string s2)
         {
             return s1?.Value != s2;

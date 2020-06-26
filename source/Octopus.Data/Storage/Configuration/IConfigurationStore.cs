@@ -12,6 +12,7 @@ namespace Octopus.Data.Storage.Configuration
         void Delete<TDocument>(TDocument document) where TDocument : ConfigurationDocument;
         void DeleteById<TDocument>(string documentId) where TDocument : ConfigurationDocument;
 
-        void CreateOrUpdate<TDocument>(string id, Action<TDocument> assignPropertiesCallback) where TDocument : ConfigurationDocument, new();
+        void CreateOrUpdate<TDocument>(string id, Action<TDocument> assignPropertiesCallback)
+            where TDocument : ConfigurationDocument, new();
     }
 }

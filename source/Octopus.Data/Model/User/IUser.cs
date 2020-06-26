@@ -11,7 +11,7 @@ namespace Octopus.Data.Model.User
         string DisplayName { get; set; }
         string EmailAddress { get; set; }
 
-        bool IsService{ get; set; }
+        bool IsService { get; set; }
 
         bool IsActive { get; set; }
 
