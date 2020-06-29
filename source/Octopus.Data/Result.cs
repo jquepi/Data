@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Octopus.Data
@@ -56,10 +57,10 @@ namespace Octopus.Data
         }
     }
 
-#nullable disable
     public class Result<T> : IResult
     {
-        private T value;
+        [AllowNull]
+        private T value = default(T);
 
         protected Result()
         {
@@ -71,13 +72,14 @@ namespace Octopus.Data
 
         public string ErrorString => Errors != null && Errors.Any() ? string.Join(Environment.NewLine, Errors) : string.Empty;
 
+        [MaybeNull, AllowNull]
         public T Value
         {
             get
             {
                 if (!WasSuccessful)
                     throw new Exception("No value as the operation was not successful");
-                return value;
+                return value!;
             }
             protected set => this.value = value;
         }
@@ -116,12 +118,14 @@ namespace Octopus.Data
 
         public static implicit operator T(Result<T> result)
         {
-            return result.Value;
+            if (result.WasFailure)
+                throw new InvalidOperationException("Cannot cast a failure result");
+            return result.Value!;
         }
 
         public T ValueOr(T def)
         {
-            return WasSuccessful ? Value : def;
+            return WasSuccessful ? Value! : def;
         }
 
         public override string ToString()
@@ -134,9 +138,8 @@ namespace Octopus.Data
         public static Result<T> From<TIn>(Result<TIn> result) where TIn : T
         {
             return result.WasSuccessful
-                ? Success(result.Value)
+                ? Success(result.Value!)
                 : Failed(result);
         }
     }
-#nullable enable
 }
