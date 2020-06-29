@@ -61,7 +61,7 @@ namespace Octopus.Data.Model
 
         public override string ToString()
         {
-            return string.Join(", ", this.Where(x => x != null).Select(x => x?.ToString()));
+            return string.Join(", ", this.Where(x => x != null).Select(x => x!.ToString()));
         }
     }
 }
