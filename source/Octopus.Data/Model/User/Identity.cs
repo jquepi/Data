@@ -19,7 +19,50 @@ namespace Octopus.Data.Model.User
         public Dictionary<string, IdentityClaim> Claims { get; }
 
         [JsonIgnore]
-        public string[] SearchableIdentifiers => Claims.Where(kvp => kvp.Value.IsIdentifyingClaim && !string.IsNullOrWhiteSpace(kvp.Value.Value)).Select(kvp => IdentityProviderName + ":" + kvp.Value.Value).ToArray();
+        public string[] SearchableIdentifiers => Claims
+            .Where(kvp => kvp.Value.IsIdentifyingClaim && !string.IsNullOrWhiteSpace(kvp.Value.Value))
+            .Select(kvp => IdentityProviderName + ":" + kvp.Value.Value).ToArray();
+
+        public bool Equals(Identity other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            if (IdentityProviderName != other.IdentityProviderName) return false;
+            return Claims.All(kvp =>
+            {
+                if (!kvp.Value.IsIdentifyingClaim)
+                    return true;
+                if (!other.Claims.ContainsKey(kvp.Key))
+                    return false;
+                var existingClaimValue = kvp.Value.Value;
+                var bothClaimsAreNullOrWhitespace = string.IsNullOrWhiteSpace(existingClaimValue) &&
+                                                    string.IsNullOrWhiteSpace(other.Claims[kvp.Key].Value);
+                var existingClaimHasValueAndMatches = !string.IsNullOrWhiteSpace(existingClaimValue) &&
+                                                      existingClaimValue.Equals(other.Claims[kvp.Key].Value,
+                                                          StringComparison.OrdinalIgnoreCase);
+                return bothClaimsAreNullOrWhitespace || existingClaimHasValueAndMatches;
+            });
+        }
+
+        public bool Equals(IdentityResource other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (IdentityProviderName != other.IdentityProviderName) return false;
+            return Claims.All(kvp =>
+            {
+                if (!kvp.Value.IsIdentifyingClaim || kvp.Value.IsServerSideOnly)
+                    return true;
+                if (!other.Claims.ContainsKey(kvp.Key))
+                    return false;
+                var existingClaimValue = kvp.Value.Value;
+                var bothClaimsAreNullOrWhitespace = string.IsNullOrWhiteSpace(existingClaimValue) &&
+                                                    string.IsNullOrWhiteSpace(other.Claims[kvp.Key].Value);
+                var existingClaimHasValueAndMatches = !string.IsNullOrWhiteSpace(existingClaimValue) &&
+                                                      existingClaimValue.Equals(other.Claims[kvp.Key].Value,
+                                                          StringComparison.OrdinalIgnoreCase);
+                return bothClaimsAreNullOrWhitespace || existingClaimHasValueAndMatches;
+            });
+        }
 
         public IdentityResource ToResource()
         {
@@ -30,16 +73,10 @@ namespace Octopus.Data.Model.User
         internal Identity WithClaims(Dictionary<string, IdentityClaimResource> claims)
         {
             foreach (var kvp in claims)
-            {
                 if (Claims.ContainsKey(kvp.Key))
-                {
                     Claims[kvp.Key].Value = kvp.Value.Value;
-                }
                 else
-                {
                     Claims.Add(kvp.Key, new IdentityClaim(kvp.Value.Value, kvp.Value.IsIdentifyingClaim));
-                }
-            }
             return this;
         }
 
@@ -57,49 +94,15 @@ namespace Octopus.Data.Model.User
                 var claim = new IdentityClaim(value, isIdentifyingClaim, isServerSideOnly);
                 Claims.Add(type, claim);
             }
+
             return this;
-        }
-
-        public bool Equals(Identity other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            if (IdentityProviderName != other.IdentityProviderName) return false;
-            return Claims.All(kvp =>
-            {
-                if (!kvp.Value.IsIdentifyingClaim)
-                    return true;
-                if (!other.Claims.ContainsKey(kvp.Key))
-                    return false;
-                var existingClaimValue = kvp.Value.Value;
-                var bothClaimsAreNullOrWhitespace = string.IsNullOrWhiteSpace(existingClaimValue) && string.IsNullOrWhiteSpace(other.Claims[kvp.Key].Value);
-                var existingClaimHasValueAndMatches = !string.IsNullOrWhiteSpace(existingClaimValue) && existingClaimValue.Equals(other.Claims[kvp.Key].Value, StringComparison.OrdinalIgnoreCase);
-                return bothClaimsAreNullOrWhitespace || existingClaimHasValueAndMatches;
-            });
-        }
-
-        public bool Equals(IdentityResource other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (IdentityProviderName != other.IdentityProviderName) return false;
-            return Claims.All(kvp =>
-            {
-                if (!kvp.Value.IsIdentifyingClaim || kvp.Value.IsServerSideOnly)
-                    return true;
-                if (!other.Claims.ContainsKey(kvp.Key))
-                    return false;
-                var existingClaimValue = kvp.Value.Value;
-                var bothClaimsAreNullOrWhitespace = string.IsNullOrWhiteSpace(existingClaimValue) && string.IsNullOrWhiteSpace(other.Claims[kvp.Key].Value);
-                var existingClaimHasValueAndMatches = !string.IsNullOrWhiteSpace(existingClaimValue) && existingClaimValue.Equals(other.Claims[kvp.Key].Value, StringComparison.OrdinalIgnoreCase);
-                return bothClaimsAreNullOrWhitespace || existingClaimHasValueAndMatches;
-            });
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((Identity) obj);
+            return obj.GetType() == GetType() && Equals((Identity) obj);
         }
 
         public override int GetHashCode()

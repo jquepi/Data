@@ -2,6 +2,7 @@
 {
     public enum SelectMode
     {
-        Single, Multiple
+        Single,
+        Multiple
     }
 }
