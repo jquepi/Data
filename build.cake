@@ -51,6 +51,7 @@ Task("__Default")
     .IsDependentOn("__Clean")
     .IsDependentOn("__Restore")
     .IsDependentOn("__Build")
+    .IsDependentOn("__Test")
     .IsDependentOn("__Pack")
     .IsDependentOn("__CopyToLocalPackages");
 
@@ -85,6 +86,17 @@ Task("__Pack")
             ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
         });
 });
+
+Task("__Test")
+    .IsDependentOn("__Build")
+    .Does(() =>
+    {
+        DotNetCoreTest("source", new DotNetCoreTestSettings
+        {
+            Configuration = configuration,
+            NoBuild = true
+        });
+    });
 
 Task("__CopyToLocalPackages")
     .WithCriteria(BuildSystem.IsLocalBuild)
