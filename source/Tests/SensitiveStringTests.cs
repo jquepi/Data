@@ -25,11 +25,19 @@ namespace Tests
         }
 
         [Test]
-        public void ComparingSensitiveStringsToEqualStringWorks()
+        public void ComparingSensitiveStringsToEqualOperatorStringWorks()
         {
             var a = "Test Value".ToSensitiveString();
 
             Assert.IsTrue(a == "Test Value");
+        }
+
+        [Test]
+        public void ComparingSensitiveStringsToEqualMethodStringWorks()
+        {
+            var a = "Test Value".ToSensitiveString();
+
+            Assert.IsTrue(a.Equals("Test Value"));
         }
 
         [Test]
