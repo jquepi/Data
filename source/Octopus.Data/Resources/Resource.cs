@@ -33,7 +33,7 @@ namespace Octopus.Data.Resources
         ///     Gets or sets the username of the user who last modified this resource.
         /// </summary>
         [JsonProperty(Order = 1002, NullValueHandling = NullValueHandling.Ignore)]
-        public string LastModifiedBy { get; set; } = string.Empty;
+        public string? LastModifiedBy { get; set; }
 
         /// <summary>
         ///     Gets or sets a dictionary of links to other related resources. These links can be used to navigate the resources on
