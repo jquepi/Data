@@ -72,9 +72,9 @@ namespace Octopus.Data
 
         public string ErrorString => Errors != null && Errors.Any() ? string.Join(Environment.NewLine, Errors) : string.Empty;
 
-        [MaybeNull, AllowNull]
         public T Value
         {
+            [return: MaybeNull]
             get
             {
                 if (!WasSuccessful)
