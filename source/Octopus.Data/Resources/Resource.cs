@@ -21,7 +21,7 @@ namespace Octopus.Data.Resources
         /// Gets or sets a unique identifier for this resource.
         /// </summary>
         [JsonProperty(Order = -100, NullValueHandling = NullValueHandling.Ignore)]
-        public string Id { get; set; } = string.Empty;
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the date/time that this resource was last modified.

@@ -15,6 +15,6 @@ namespace Octopus.Data.Resources
         /// <summary>
         ///     Gets or sets the username of the user who last modified this resource.
         /// </summary>
-        string LastModifiedBy { get; set; }
+        string? LastModifiedBy { get; set; }
     }
 }
