@@ -1,6 +1,12 @@
 mode: ContinuousDeployment
 
 branches:
-  master:
-    regex: ^(main|master)$
-    source-branches: ["main"]
+  main:
+    regex: ^main
+    mode: ContinuousDelivery
+    tag: ''
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: false
