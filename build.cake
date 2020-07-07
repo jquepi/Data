@@ -32,9 +32,6 @@ var nugetVersion = gitVersionInfo.NuGetVersion;
 ///////////////////////////////////////////////////////////////////////////////
 Setup(context =>
 {
-    if(BuildSystem.IsRunningOnTeamCity)
-        BuildSystem.TeamCity.SetBuildNumber(gitVersionInfo.NuGetVersion);
-
     Information("Building " + packageName + " v{0}", nugetVersion);
 });
 
