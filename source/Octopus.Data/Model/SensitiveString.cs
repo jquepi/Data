@@ -49,7 +49,7 @@ namespace Octopus.Data.Model
                 return s1?.Value == otherString;
             return ReferenceEquals(s1, null) && ReferenceEquals(s2, null);
         }
-        public static bool operator !=(SensitiveString s1, object? s2)
+        public static bool operator !=(SensitiveString? s1, object? s2)
         {
             return !(s1 == s2);
         }
