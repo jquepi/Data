@@ -20,19 +20,13 @@ var configuration = Argument("configuration", "Release");
 var artifactsDir = "./artifacts";
 var localPackagesDir = "../LocalPackages";
 var packageName = "Octopus.Data";
-
-var gitVersionInfo = GitVersion(new GitVersionSettings {
-    OutputType = GitVersionOutput.Json
-});
-
-var nugetVersion = gitVersionInfo.NuGetVersion;
+string nugetVersion;
 
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP / TEARDOWN
 ///////////////////////////////////////////////////////////////////////////////
 Setup(context =>
 {
-    Information("Building " + packageName + " v{0}", nugetVersion);
 });
 
 Teardown(context =>
@@ -51,6 +45,27 @@ Task("__Default")
     .IsDependentOn("__Pack")
     .IsDependentOn("__CopyToLocalPackages");
 
+Task("__CalculateVersion")
+    .Does(() =>
+{
+    var fromEnvironment = EnvironmentVariable("GitVersion.NuGetVersion");
+    if (!string.IsNullOrWhiteSpace(fromEnvironment))
+    {
+        nugetVersion = fromEnvironment;
+        Information($"Using GitVersion.NuGetVersion from environment variables: '{nugetVersion}'");
+    }
+    else
+    {
+        var gitVersionInfo = GitVersion(new GitVersionSettings {
+            OutputType = GitVersionOutput.Json
+        });
+        nugetVersion = gitVersionInfo.NuGetVersion;
+        Information($"Using calculated version: '{nugetVersion}'");
+    }
+
+    Information($"Building {packageName} {nugetVersion}");
+});
+
 Task("__Clean")
     .Does(() =>
 {
@@ -63,6 +78,7 @@ Task("__Restore")
     .Does(() => DotNetCoreRestore("source"));
 	
 Task("__Build")
+    .IsDependentOn("__CalculateVersion")
     .Does(() =>
 {
     DotNetCoreBuild("source", new DotNetCoreBuildSettings
