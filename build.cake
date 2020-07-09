@@ -48,11 +48,11 @@ Task("__Default")
 Task("__CalculateVersion")
     .Does(() =>
 {
-    var fromEnvironment = EnvironmentVariable("GitVersion.NuGetVersion");
-    if (!string.IsNullOrWhiteSpace(fromEnvironment))
+    var fromArg = Argument("NuGetVersion", default(string));
+    if (!string.IsNullOrWhiteSpace(fromArg))
     {
-        nugetVersion = fromEnvironment;
-        Information($"Using GitVersion.NuGetVersion from environment variables: '{nugetVersion}'");
+        nugetVersion = fromArg;
+        Information($"Using GitVersion.NuGetVersion from build argument: '{nugetVersion}'");
     }
     else
     {
