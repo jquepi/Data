@@ -13,7 +13,7 @@ namespace Octopus.Data
         {
             if (results.All(r => r.WasSuccessful))
             {
-                return ifAllSuccessful(results.Select(r => r.Value!));
+                return ifAllSuccessful(results.Select(r => r.Value!))!;
             }
 
             return Result<TOut>.Failed(results);
@@ -46,7 +46,7 @@ namespace Octopus.Data
         public static Result<TOut> Combine<TA, TB, TOut>(this Result<TA> a, Result<TB> b, Func<TA, TB, TOut> transform)
         {
             if (a.WasSuccessful && b.WasSuccessful)
-                return transform(a.Value!, b.Value!);
+                return transform(a.Value!, b.Value!)!;
             return Result<TOut>.Failed(a, b);
         }
 
