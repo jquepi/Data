@@ -60,7 +60,9 @@ namespace Octopus.Data
     public class Result<T> : IResult
     {
         [AllowNull]
-        T value;
+        // ReSharper disable once RedundantDefaultMemberInitializer
+        // ReSharper disable once RedundantTypeSpecificationInDefaultExpression
+        T value = default(T);
 
         protected Result()
         {
