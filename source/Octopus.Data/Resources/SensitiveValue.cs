@@ -17,12 +17,12 @@ namespace Octopus.Data.Resources
 
         public static implicit operator SensitiveValue(string newValue)
         {
-            return new SensitiveValue {HasValue = newValue != null};
+            return new SensitiveValue { HasValue = newValue != null };
         }
 
         public static implicit operator SensitiveValue(SensitiveString newValue)
         {
-            return new SensitiveValue {HasValue = newValue?.Value != null};
+            return new SensitiveValue { HasValue = newValue?.Value != null };
         }
     }
 }

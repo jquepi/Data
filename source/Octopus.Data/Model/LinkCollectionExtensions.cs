@@ -5,7 +5,10 @@ namespace Octopus.Data.Model
     public static class LinkCollectionExtensions
     {
         public static LinkCollection Pagination(this LinkCollection collection,
-            Func<int, int, string> formatWithSkipAndTake, int currentOffset, int perPage, int total)
+            Func<int, int, string> formatWithSkipAndTake,
+            int currentOffset,
+            int perPage,
+            int total)
         {
             collection.Add("Page.All", formatWithSkipAndTake(0, int.MaxValue));
             if (currentOffset > 0)
@@ -16,7 +19,7 @@ namespace Octopus.Data.Model
 
             collection.Add("Page.Current", formatWithSkipAndTake(currentOffset, perPage));
 
-            var lastPage = Math.Max(0, (int) Math.Ceiling((double) total / perPage) - 1);
+            var lastPage = Math.Max(0, (int)Math.Ceiling((double)total / perPage) - 1);
             collection.Add("Page.Last", formatWithSkipAndTake(lastPage * perPage, perPage));
 
             return collection;

@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Octopus.Data.Model;
 
@@ -47,20 +48,20 @@ namespace Tests
 
             Assert.IsTrue(a != "Test Value2");
         }
-        
+
         [Test]
         public void ComparingSensitiveStringsToNullWorks()
         {
             var a = "Test Value".ToSensitiveString();
-            
+
             Assert.IsFalse(a == null);
         }
-        
+
         [Test]
         public void ComparingNullSensitiveStringsToNullWorks()
         {
             SensitiveString? a = null;
-            
+
             Assert.IsTrue(a == null);
         }
     }

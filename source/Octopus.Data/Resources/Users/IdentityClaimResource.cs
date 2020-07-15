@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Octopus.Data.Resources.Users
 {
     public class IdentityClaimResource

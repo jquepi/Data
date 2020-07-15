@@ -38,7 +38,8 @@ namespace Octopus.Data.Model
                     return Value == stringObj;
                 return false;
             }
-            return Equals((SensitiveString) obj);
+
+            return Equals((SensitiveString)obj);
         }
 
         public static bool operator ==(SensitiveString? s1, object? s2)
@@ -49,6 +50,7 @@ namespace Octopus.Data.Model
                 return s1?.Value == otherString;
             return ReferenceEquals(s1, null) && ReferenceEquals(s2, null);
         }
+
         public static bool operator !=(SensitiveString? s1, object? s2)
         {
             return !(s1 == s2);

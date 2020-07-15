@@ -1,4 +1,6 @@
-﻿namespace Octopus.Data.Storage.User
+﻿using System;
+
+namespace Octopus.Data.Storage.User
 {
     public class ApiKeyDescriptor
     {

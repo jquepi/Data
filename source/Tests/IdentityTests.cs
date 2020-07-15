@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Octopus.Data.Model.User;
 

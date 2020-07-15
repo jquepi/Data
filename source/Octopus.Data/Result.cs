@@ -15,7 +15,7 @@ namespace Octopus.Data
 
     public class Result : IResult
     {
-        private string[] errors = Array.Empty<string>();
+        string[] errors = Array.Empty<string>();
 
         protected Result()
         {
@@ -28,11 +28,11 @@ namespace Octopus.Data
 
         public string ErrorString => string.Join(Environment.NewLine, errors);
 
-
         public static Result Failed(params string[] errors)
         {
             return new Result { errors = errors.ToArray() };
         }
+
         public static Result Failed(IReadOnlyList<string> errors)
         {
             return new Result { errors = errors.ToArray() };
@@ -52,15 +52,15 @@ namespace Octopus.Data
         {
             var failed = results.Where(r => !r.WasSuccessful).ToArray();
             if (failed.Length == 0)
-                return Result.Success();
-            return Result.Failed(failed.SelectMany(f => f.Errors).ToArray());
+                return Success();
+            return Failed(failed.SelectMany(f => f.Errors).ToArray());
         }
     }
 
     public class Result<T> : IResult
     {
         [AllowNull]
-        private T value = default(T);
+        T value;
 
         protected Result()
         {
@@ -88,27 +88,32 @@ namespace Octopus.Data
 
         public static Result<T> Failed()
         {
-            return new Result<T>() { Errors = new string[0] };
+            return new Result<T>
+                { Errors = new string[0] };
         }
 
         public static Result<T> Failed(params string[] errors)
         {
-            return new Result<T>() { Errors = errors.ToArray() };
+            return new Result<T>
+                { Errors = errors.ToArray() };
         }
 
         public static Result<T> Failed(params IResult[] becauseOf)
         {
-            return new Result<T>() { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
+            return new Result<T>
+                { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
         }
 
         public static Result<T> Failed(IReadOnlyCollection<IResult> becauseOf)
         {
-            return new Result<T>() { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
+            return new Result<T>
+                { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
         }
 
         public static Result<T> Success(T value)
         {
-            return new Result<T>() { WasSuccessful = true, Value = value };
+            return new Result<T>
+                { WasSuccessful = true, Value = value };
         }
 
         public static implicit operator Result<T>(T value)

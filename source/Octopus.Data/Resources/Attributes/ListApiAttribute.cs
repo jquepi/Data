@@ -1,4 +1,5 @@
-﻿using Octopus.Data.Model;
+﻿using System;
+using Octopus.Data.Model;
 
 namespace Octopus.Data.Resources.Attributes
 {

@@ -1,3 +1,5 @@
+using System;
+
 namespace Octopus.Data.Model.Configuration
 {
     public abstract class ConfigurationDocument : IId
