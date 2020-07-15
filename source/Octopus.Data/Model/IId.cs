@@ -1,3 +1,5 @@
+using System;
+
 namespace Octopus.Data.Model
 {
     public interface IId

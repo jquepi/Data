@@ -6,7 +6,7 @@ namespace Octopus.Data.Resources
     public class SensitiveValue : IEquatable<SensitiveValue>
     {
         public bool HasValue { get; set; }
-        public string NewValue { get; set; }
+        public string? NewValue { get; set; }
 
         public bool Equals(SensitiveValue other)
         {
@@ -17,12 +17,12 @@ namespace Octopus.Data.Resources
 
         public static implicit operator SensitiveValue(string newValue)
         {
-            return new SensitiveValue {HasValue = newValue != null};
+            return new SensitiveValue { HasValue = newValue != null };
         }
 
         public static implicit operator SensitiveValue(SensitiveString newValue)
         {
-            return new SensitiveValue {HasValue = newValue?.Value != null};
+            return new SensitiveValue { HasValue = newValue?.Value != null };
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Octopus.Data.Model.User;
 using Octopus.Data.Resources.Users;
@@ -20,8 +21,7 @@ namespace Tests
         }
 
         [Test]
-        public void
-            EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenExistingIdentityHasIdentifyingTrueAndNullValue()
+        public void EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenExistingIdentityHasIdentifyingTrueAndNullValue()
         {
             var identity1 = CreateIdentity(null, true, "foo@test.com", "foo");
             var identity2 = CreateIdentityResource("foo@test.com", false, "foo@test.com", "foo");
@@ -37,15 +37,14 @@ namespace Tests
         }
 
         [Test]
-        public void
-            EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenOtherIdentityHasIdentifyingTrueAndNullValue()
+        public void EqualityCheckWhereIdentifyingAttributeHasChangedWorksWhenOtherIdentityHasIdentifyingTrueAndNullValue()
         {
             var identity1 = CreateIdentity("foo@test.com", false, "foo@test.com", "foo");
             var identity2 = CreateIdentityResource(null, true, "foo@test.com", "foo");
             Assert.IsTrue(identity1.Equals(identity2));
         }
 
-        private Identity CreateIdentity(string email, bool emailIsIdentifying, string upn, string displayName)
+        Identity CreateIdentity(string? email, bool emailIsIdentifying, string upn, string displayName)
         {
             var identity = new Identity("Test Provider");
             identity.Claims.Add("email", new IdentityClaim(email, emailIsIdentifying));
@@ -53,11 +52,11 @@ namespace Tests
             return identity;
         }
 
-        private IdentityResource CreateIdentityResource(string email, bool emailIsIdentifying, string upn,
-            string displayName)
+        IdentityResource CreateIdentityResource(string? email, bool emailIsIdentifying, string upn, string displayName)
         {
             var identity = new IdentityResource("Test Provider");
-            identity.Claims.Add("email", new IdentityClaimResource(email, emailIsIdentifying));
+            if (email != null)
+                identity.Claims.Add("email", new IdentityClaimResource(email, emailIsIdentifying));
             identity.Claims.Add("upn", new IdentityClaimResource(upn, true));
             return identity;
         }

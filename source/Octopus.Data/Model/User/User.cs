@@ -1,4 +1,6 @@
-﻿namespace Octopus.Data.Model.User
+﻿using System;
+
+namespace Octopus.Data.Model.User
 {
     public class User
     {

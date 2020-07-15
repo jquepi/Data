@@ -4,7 +4,7 @@ namespace Octopus.Data.Model
 {
     public class Href : IEquatable<Href>
     {
-        private readonly string link;
+        readonly string link;
 
         public Href(string link)
         {
@@ -26,7 +26,7 @@ namespace Octopus.Data.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Href) obj);
+            return Equals((Href)obj);
         }
 
         public override int GetHashCode()

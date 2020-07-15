@@ -4,9 +4,9 @@ using System.Diagnostics;
 namespace Octopus.Data.Model
 {
     [DebuggerDisplay("Sensitive: {Value}")]
-    public class SensitiveString : IEquatable<SensitiveString>, IEquatable<string>
+    public class SensitiveString
     {
-        public SensitiveString(string value)
+        internal SensitiveString(string? value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value),
@@ -18,60 +18,49 @@ namespace Octopus.Data.Model
 
         public string Value { get; }
 
-        public bool Equals(SensitiveString other)
+        public override int GetHashCode()
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Value == other.Value;
+            return Value.GetHashCode();
         }
 
-        public bool Equals(string other)
+        protected bool Equals(SensitiveString? other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Value == other;
+            return Value == other?.Value;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((SensitiveString) obj);
+            if (obj.GetType() != GetType())
+            {
+                if (obj is string stringObj)
+                    return Value == stringObj;
+                return false;
+            }
+
+            return Equals((SensitiveString)obj);
         }
 
-        public override int GetHashCode()
+        public static bool operator ==(SensitiveString? s1, object? s2)
         {
-            return Value != null ? Value.GetHashCode() : 0;
+            if (s2 is SensitiveString other)
+                return s1?.Value == other?.Value;
+            if (s2 is string otherString)
+                return s1?.Value == otherString;
+            return ReferenceEquals(s1, null) && ReferenceEquals(s2, null);
         }
 
-        public static bool operator ==(SensitiveString s1, SensitiveString s2)
+        public static bool operator !=(SensitiveString? s1, object? s2)
         {
-            return s1?.Value == s2?.Value;
-        }
-
-        public static bool operator !=(SensitiveString s1, SensitiveString s2)
-        {
-            return s1?.Value != s2?.Value;
-        }
-
-        public static bool operator ==(SensitiveString s1, string s2)
-        {
-            return s1?.Value == s2;
-        }
-
-        public static bool operator !=(SensitiveString s1, string s2)
-        {
-            return s1?.Value != s2;
+            return !(s1 == s2);
         }
     }
 
-    public static class SensitiveStringExtensions
+    public static class SensitiveStringExtensionMethods
     {
         public static SensitiveString ToSensitiveString(this string s)
         {
-            if (s == null)
-                return null;
             return new SensitiveString(s);
         }
     }

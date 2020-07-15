@@ -8,8 +8,10 @@ namespace Octopus.Data.Resources.Attributes
     [AttributeUsage(AttributeTargets.Property)]
     public abstract class PropertyApplicabilityAttribute : Attribute
     {
-        internal PropertyApplicabilityAttribute(PropertyApplicabilityMode mode, string dependsOnPropertyName,
-            object dependsOnPropertyValue)
+        internal PropertyApplicabilityAttribute(
+            PropertyApplicabilityMode mode,
+            string dependsOnPropertyName,
+            object? dependsOnPropertyValue)
         {
             Mode = mode;
             DependsOnPropertyName = dependsOnPropertyName;
@@ -20,7 +22,7 @@ namespace Octopus.Data.Resources.Attributes
 
         public string DependsOnPropertyName { get; }
 
-        public object DependsOnPropertyValue { get; }
+        public object? DependsOnPropertyValue { get; }
     }
 
     public class ApplicableWhenAnyValueAttribute : PropertyApplicabilityAttribute
@@ -41,7 +43,7 @@ namespace Octopus.Data.Resources.Attributes
 
     public class ApplicableWhenSpecificValueAttribute : PropertyApplicabilityAttribute
     {
-        public ApplicableWhenSpecificValueAttribute(string dependsOnPropertyName, object dependsOnPropertyValue) :
+        public ApplicableWhenSpecificValueAttribute(string dependsOnPropertyName, object? dependsOnPropertyValue) :
             base(PropertyApplicabilityMode.ApplicableIfSpecificValue, dependsOnPropertyName, dependsOnPropertyValue)
         {
         }
@@ -49,7 +51,7 @@ namespace Octopus.Data.Resources.Attributes
 
     public class ApplicableWhenNotSpecificValueAttribute : PropertyApplicabilityAttribute
     {
-        public ApplicableWhenNotSpecificValueAttribute(string dependsOnPropertyName, object dependsOnPropertyValue) :
+        public ApplicableWhenNotSpecificValueAttribute(string dependsOnPropertyName, object? dependsOnPropertyValue) :
             base(PropertyApplicabilityMode.ApplicableIfNotSpecificValue, dependsOnPropertyName, dependsOnPropertyValue)
         {
         }

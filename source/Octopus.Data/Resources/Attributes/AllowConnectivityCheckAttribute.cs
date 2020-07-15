@@ -10,7 +10,8 @@ namespace Octopus.Data.Resources.Attributes
         public readonly string ConnectivityCheckTitle;
         public readonly string[] DependsOnPropertyNames;
 
-        public AllowConnectivityCheckAttribute(string connectivityCheckTitle, string apiEndpoint,
+        public AllowConnectivityCheckAttribute(string connectivityCheckTitle,
+            string apiEndpoint,
             params string[] dependsOnPropertyNames)
         {
             ConnectivityCheckTitle = connectivityCheckTitle;

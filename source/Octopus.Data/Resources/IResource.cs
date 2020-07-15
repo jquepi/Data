@@ -1,4 +1,5 @@
-﻿using Octopus.Data.Model;
+﻿using System;
+using Octopus.Data.Model;
 
 namespace Octopus.Data.Resources
 {
@@ -10,7 +11,7 @@ namespace Octopus.Data.Resources
         /// <summary>
         ///     Gets a unique identifier for this resource.
         /// </summary>
-        string Id { get; }
+        string? Id { get; }
 
         /// <summary>
         ///     Gets or sets a dictionary of links to other related resources. These links can be used to navigate the resources on

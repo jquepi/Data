@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 [assembly: AssemblyDescription("Data interfaces for Octopus, an opinionated deployment solution for .NET applications")]
 [assembly: AssemblyCompany("Octopus Deploy")]

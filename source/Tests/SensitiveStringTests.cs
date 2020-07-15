@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Octopus.Data.Model;
 
@@ -7,7 +8,7 @@ namespace Tests
     public class SensitiveStringTests
     {
         [Test]
-        public void ComparingSensitiveStringsAreEqualWorks()
+        public void ComparingSensitiveStringPointersAreEqualWorks()
         {
             var a = "Test Value".ToSensitiveString();
             var b = "Test Value".ToSensitiveString();
@@ -16,7 +17,7 @@ namespace Tests
         }
 
         [Test]
-        public void ComparingSensitiveStringsAreNotEqualWorks()
+        public void ComparingSensitiveStringPointersAreNotEqualWorks()
         {
             var a = "Test Value".ToSensitiveString();
             var b = "Test Value2".ToSensitiveString();
@@ -25,11 +26,19 @@ namespace Tests
         }
 
         [Test]
-        public void ComparingSensitiveStringsToEqualStringWorks()
+        public void ComparingSensitiveStringsToEqualOperatorStringWorks()
         {
             var a = "Test Value".ToSensitiveString();
 
             Assert.IsTrue(a == "Test Value");
+        }
+
+        [Test]
+        public void ComparingSensitiveStringsToEqualMethodStringWorks()
+        {
+            var a = "Test Value".ToSensitiveString();
+
+            Assert.IsTrue(a.Equals("Test Value"));
         }
 
         [Test]
@@ -38,6 +47,22 @@ namespace Tests
             var a = "Test Value".ToSensitiveString();
 
             Assert.IsTrue(a != "Test Value2");
+        }
+
+        [Test]
+        public void ComparingSensitiveStringsToNullWorks()
+        {
+            var a = "Test Value".ToSensitiveString();
+
+            Assert.IsFalse(a == null);
+        }
+
+        [Test]
+        public void ComparingNullSensitiveStringsToNullWorks()
+        {
+            SensitiveString? a = null;
+
+            Assert.IsTrue(a == null);
         }
     }
 }

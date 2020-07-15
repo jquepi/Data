@@ -12,7 +12,7 @@ namespace Octopus.Data.Model
         }
 
         public ReferenceCollection(string singleValue)
-            : this(new[] {singleValue})
+            : this(new[] { singleValue })
         {
         }
 
@@ -33,17 +33,17 @@ namespace Octopus.Data.Model
 
         public static ReferenceCollection One(string item)
         {
-            return new ReferenceCollection {item};
+            return new ReferenceCollection { item };
         }
     }
 
     public class ReferenceCollection<T> : HashSet<T>
     {
-        public ReferenceCollection(IEqualityComparer<T> comparer = null) : base(comparer)
+        public ReferenceCollection(IEqualityComparer<T>? comparer = null) : base(comparer)
         {
         }
 
-        public ReferenceCollection(IEnumerable<T> values, IEqualityComparer<T> comparer = null) : base(values, comparer)
+        public ReferenceCollection(IEnumerable<T> values, IEqualityComparer<T>? comparer = null) : base(values, comparer)
         {
         }
 
@@ -58,7 +58,7 @@ namespace Octopus.Data.Model
 
         public override string ToString()
         {
-            return string.Join(", ", this.Select(x => x.ToString()));
+            return string.Join(", ", this.Where(x => x != null).Select(x => x!.ToString()));
         }
     }
 }

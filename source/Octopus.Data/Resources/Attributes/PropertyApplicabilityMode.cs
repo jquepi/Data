@@ -1,3 +1,5 @@
+using System;
+
 namespace Octopus.Data.Resources.Attributes
 {
     public enum PropertyApplicabilityMode

@@ -7,14 +7,14 @@ namespace Octopus.Data.Resources.Users
 {
     public sealed class IdentityResource : IEquatable<IdentityResource>
     {
-        public IdentityResource()
+        public IdentityResource() : this(string.Empty)
         {
-            Claims = new Dictionary<string, IdentityClaimResource>();
         }
 
-        public IdentityResource(string identityProviderName) : this()
+        public IdentityResource(string identityProviderName)
         {
             IdentityProviderName = identityProviderName;
+            Claims = new Dictionary<string, IdentityClaimResource>();
         }
 
         public string IdentityProviderName { get; set; }
@@ -41,7 +41,7 @@ namespace Octopus.Data.Resources.Users
         {
             foreach (var kvp in claims.Where(x => !x.Value.IsServerSideOnly))
                 if (Claims.ContainsKey(kvp.Key))
-                    Claims[kvp.Key].Value = kvp.Value.Value;
+                    Claims[kvp.Key] = new IdentityClaimResource(kvp.Value.Value, kvp.Value.IsIdentifyingClaim);
                 else
                     Claims.Add(kvp.Key, new IdentityClaimResource(kvp.Value.Value, kvp.Value.IsIdentifyingClaim));
             return this;

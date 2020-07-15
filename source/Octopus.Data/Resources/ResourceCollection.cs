@@ -16,18 +16,23 @@ namespace Octopus.Data.Resources
             Links = links;
         }
 
-        [JsonProperty(Order = 1)] public string ItemType => typeof(TResource).Name.Replace("Resource", "");
+        [JsonProperty(Order = 1)]
+        public string ItemType => typeof(TResource).Name.Replace("Resource", "");
 
-        [JsonProperty(Order = 4)] public int TotalResults { get; set; }
+        [JsonProperty(Order = 4)]
+        public int TotalResults { get; set; }
 
-        [JsonProperty(Order = 5)] public int ItemsPerPage { get; set; }
+        [JsonProperty(Order = 5)]
+        public int ItemsPerPage { get; set; }
 
         [JsonProperty(Order = 6)]
         public int NumberOfPages =>
-            ItemsPerPage == 0 ? 1 : (int) Math.Max(1, Math.Ceiling((double) TotalResults / ItemsPerPage));
+            ItemsPerPage == 0 ? 1 : (int)Math.Max(1, Math.Ceiling((double)TotalResults / ItemsPerPage));
 
-        [JsonProperty(Order = 6)] public int LastPageNumber => NumberOfPages - 1;
+        [JsonProperty(Order = 6)]
+        public int LastPageNumber => NumberOfPages - 1;
 
-        [JsonProperty(Order = 10)] public IList<TResource> Items { get; set; }
+        [JsonProperty(Order = 10)]
+        public IList<TResource> Items { get; set; }
     }
 }
