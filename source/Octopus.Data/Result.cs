@@ -48,7 +48,7 @@ namespace Octopus.Data
 
     public class Result<T> : ISuccessResult<T>
     {
-        Result(T value)
+        protected Result(T value)
         {
             Value = value;
         }
