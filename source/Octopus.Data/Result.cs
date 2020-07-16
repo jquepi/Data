@@ -1,121 +1,78 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Octopus.Data
 {
     public interface IResult
-    {
-        bool WasSuccessful { get; }
-        string[] Errors { get; }
-        string ErrorString { get; }
-        bool WasFailure { get; }
-    }
+    {}
 
     public class Result : IResult
     {
-        string[] errors = Array.Empty<string>();
-
-        protected Result()
+        public static FailureResult Failed(params string[] errors)
         {
+            return new FailureResult(errors);
         }
 
-        public bool WasSuccessful { get; private set; }
-        public bool WasFailure => !WasSuccessful;
-
-        public string[] Errors => errors.ToArray();
-
-        public string ErrorString => string.Join(Environment.NewLine, errors);
-
-        public static Result Failed(params string[] errors)
+        public static FailureResult Failed(IReadOnlyList<string> errors)
         {
-            return new Result { errors = errors.ToArray() };
+            return new FailureResult(errors);
         }
 
-        public static Result Failed(IReadOnlyList<string> errors)
+        public static FailureResult Failed(params FailureResult[] becauseOf)
         {
-            return new Result { errors = errors.ToArray() };
-        }
-
-        public static Result Failed(params IResult[] becauseOf)
-        {
-            return new Result { errors = becauseOf.SelectMany(b => b.Errors).ToArray() };
+            return new FailureResult(becauseOf.SelectMany(b => b.Errors));
         }
 
         public static Result Success()
         {
-            return new Result { WasSuccessful = true };
+            return new Result();
         }
 
-        public static Result From(params Result[] results)
+        public static IResult From(params IResult[] results)
         {
-            var failed = results.Where(r => !r.WasSuccessful).ToArray();
+            var failed = results.OfType<FailureResult>().ToArray();
             if (failed.Length == 0)
                 return Success();
             return Failed(failed.SelectMany(f => f.Errors).ToArray());
         }
     }
 
-    public class Result<T> : IResult
+    public interface IResult<T> : IResult
+    {}
+
+    public interface ISuccessResult<T> : IResult<T>
     {
-        [AllowNull]
-        // ReSharper disable once RedundantDefaultMemberInitializer
-        // ReSharper disable once RedundantTypeSpecificationInDefaultExpression
-        T value = default(T);
+        T Value { get; }
+    }
 
-        protected Result()
+    public class Result<T> : ISuccessResult<T>
+    {
+        Result(T value)
         {
+            Value = value;
         }
 
-        public bool WasSuccessful { get; protected set; }
+        public T Value { get; }
 
-        public string[] Errors { get; protected set; } = Array.Empty<string>();
-
-        public string ErrorString => Errors != null && Errors.Any() ? string.Join(Environment.NewLine, Errors) : string.Empty;
-
-        public T Value
+        public static FailureResult<T> Failed(params string[] errors)
         {
-            [return: MaybeNull]
-            get
-            {
-                if (!WasSuccessful)
-                    throw new Exception("No value as the operation was not successful");
-                return value!;
-            }
-            protected set => this.value = value;
+            return new FailureResult<T>(errors);
         }
 
-        public bool WasFailure => !WasSuccessful;
-
-        public static Result<T> Failed()
+        public static FailureResult<T> Failed(IReadOnlyList<string> errors)
         {
-            return new Result<T>
-                { Errors = new string[0] };
+            return new FailureResult<T>(errors);
         }
 
-        public static Result<T> Failed(params string[] errors)
+        public static FailureResult<T> Failed(params FailureResult<T>[] becauseOf)
         {
-            return new Result<T>
-                { Errors = errors.ToArray() };
-        }
-
-        public static Result<T> Failed(params IResult[] becauseOf)
-        {
-            return new Result<T>
-                { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
-        }
-
-        public static Result<T> Failed(IReadOnlyCollection<IResult> becauseOf)
-        {
-            return new Result<T>
-                { Errors = becauseOf.Where(s => s.WasFailure).SelectMany(b => b.Errors).ToArray() };
+            return new FailureResult<T>(becauseOf.SelectMany(b => b.Errors));
         }
 
         public static Result<T> Success(T value)
         {
-            return new Result<T>
-                { WasSuccessful = true, Value = value };
+            return new Result<T>(value);
         }
 
         public static implicit operator Result<T>(T value)
@@ -125,28 +82,12 @@ namespace Octopus.Data
 
         public static implicit operator T(Result<T> result)
         {
-            if (result.WasFailure)
-                throw new InvalidOperationException("Cannot cast a failure result");
-            return result.Value!;
-        }
-
-        public T ValueOr(T def)
-        {
-            return WasSuccessful ? Value! : def;
+            return result.Value;
         }
 
         public override string ToString()
         {
-            return WasSuccessful
-                ? "" + Value
-                : ErrorString;
-        }
-
-        public static Result<T> From<TIn>(Result<TIn> result) where TIn : T
-        {
-            return result.WasSuccessful
-                ? Success(result.Value!)
-                : Failed(result);
+            return Value?.ToString() ?? string.Empty;
         }
     }
 }

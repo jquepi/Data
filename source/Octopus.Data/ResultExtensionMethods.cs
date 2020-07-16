@@ -6,62 +6,53 @@ namespace Octopus.Data
 {
     public static class ResultExtensionMethods
     {
-        public static Result<TOut> Then<TIn, TOut>(
-            this IReadOnlyCollection<Result<TIn>> results,
+        public static IResult Then<TIn, TOut>(
+            this IReadOnlyCollection<IResult> results,
             Func<IEnumerable<TIn>, TOut> ifAllSuccessful
         )
         {
-            if (results.All(r => r.WasSuccessful))
+            var successResults = results.OfType<Result<TIn>>().ToArray();
+            if (successResults.Length == results.Count)
             {
-                return ifAllSuccessful(results.Select(r => r.Value!))!;
+                return Result<TOut>.Success(ifAllSuccessful(successResults.Select(r => r.Value)));
             }
 
-            return Result<TOut>.Failed(results);
+            return Result.Failed(results.OfType<FailureResult>().ToArray());
         }
 
-        public static Result<TOut> Then<TIn, TOut>(
-            this Result<TIn> result,
+        public static IResult Then<TIn, TOut>(
+            this IResult result,
             Func<TIn, Result<TOut>> ifSuccessful
         )
         {
-            return result.WasSuccessful ? ifSuccessful(result.Value!) : Result<TOut>.Failed(result);
+            return result is Result<TIn> successResult ? (IResult)ifSuccessful(successResult.Value) : Result.Failed((FailureResult)result);
         }
 
-        public static Result<TOut> Then<TIn, TOut>(
-            this Result<TIn> result,
+        public static IResult Then<TIn, TOut>(
+            this IResult result,
             Func<TIn, TOut> ifSuccessful
         )
         {
-            return result.WasSuccessful ? Result<TOut>.Success(ifSuccessful(result.Value!)) : Result<TOut>.Failed(result);
-        }
-
-        public static Result<IReadOnlyList<T>> InvertToList<T>(this IEnumerable<Result<T>> results)
-        {
-            IReadOnlyList<Result<T>> resultsArr = results.ToArray();
-            if (resultsArr.All(r => r.WasSuccessful))
-                return Result<IReadOnlyList<T>>.Success(resultsArr.Select(r => r.Value!).ToArray());
-            return Result<IReadOnlyList<T>>.Failed(resultsArr);
+            return result is Result<TIn> successResult ? (IResult)Result<TOut>.Success(ifSuccessful(successResult.Value)) : Result.Failed((FailureResult)result);
         }
 
         public static Result<TOut> Combine<TA, TB, TOut>(this Result<TA> a, Result<TB> b, Func<TA, TB, TOut> transform)
         {
-            if (a.WasSuccessful && b.WasSuccessful)
-                return transform(a.Value!, b.Value!)!;
-            return Result<TOut>.Failed(a, b);
+            return transform(a.Value, b.Value)!;
         }
 
-        public static Result<T> If<T>(this Result<T> a, IResult b)
+        public static IResult If<T>(this Result<T> a, IResult b)
         {
-            if (a.WasSuccessful && b.WasSuccessful)
-                return a.Value!;
-            return Result<T>.Failed(a, b);
+            if (b is FailureResult fail)
+                return Result.Failed(fail);
+            return a;
         }
 
-        public static Result<T> If<T>(this IResult a, Result<T> b)
+        public static IResult If<T>(this IResult a, Result<T> b)
         {
-            if (a.WasSuccessful && b.WasSuccessful)
-                return b.Value!;
-            return Result<T>.Failed(a, b);
+            if (a is FailureResult fail)
+                return Result.Failed(fail);
+            return b;
         }
 
         public static Result<T> AsSuccessResult<T>(this T value)
