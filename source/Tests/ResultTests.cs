@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using Octopus.Data;
 
@@ -11,9 +12,7 @@ namespace Tests
         {
             var result = new TestClassWithResultMethod().DoSomething(true);
             if (result is FailureResult fail)
-            {
                 Assert.AreEqual("Some failure reason", fail.ErrorString);
-            }
         }
 
         [Test]
@@ -21,9 +20,7 @@ namespace Tests
         {
             var result = new TestClassWithResultMethod().DoSomething(true);
             if (result is Result<TestObjectBeingReturned> success)
-            {
                 Assert.Fail("This result wasn't a success case!");
-            }
         }
 
         [Test]
@@ -31,9 +28,7 @@ namespace Tests
         {
             var result = new TestClassWithResultMethod().DoSomething(false);
             if (result is Result<TestObjectBeingReturned> success)
-            {
                 Assert.AreEqual("Some Name", success.Value.Name);
-            }
         }
 
         [Test]
@@ -41,20 +36,15 @@ namespace Tests
         {
             var result = new TestClassWithResultMethod().DoSomething(false);
             if (result is FailureResult fail)
-            {
                 Assert.Fail("This result wasn't a failure case!");
-            }
         }
-
 
         [Test]
         public void CheckSuccessWithNullableType()
         {
             var result = new TestClassWithResultMethod().DoSomething(false);
             if (result is Result<TestObjectBeingReturned?> success)
-            {
                 Assert.AreEqual("Some Name", success.Value?.Name);
-            }
         }
 
         class TestClassWithResultMethod

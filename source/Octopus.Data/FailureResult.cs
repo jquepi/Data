@@ -10,6 +10,7 @@ namespace Octopus.Data
         {
             Errors = errors.ToArray();
         }
+
         public string[] Errors { get; }
 
         public string ErrorString => string.Join(Environment.NewLine, Errors);
