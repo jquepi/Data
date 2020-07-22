@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Octopus.Data.Model.User
 {
     public class UserId : TypedId
@@ -9,9 +11,10 @@ namespace Octopus.Data.Model.User
 
     public static class UserIdExtensionMethods
     {
-        public static UserId ToUserId(this string value)
+        [return: NotNullIfNotNull("value")]
+        public static UserId? ToUserId(this string? value)
         {
-            return new UserId(value);
+            return value == null ? null : new UserId(value);
         }
     }
 }

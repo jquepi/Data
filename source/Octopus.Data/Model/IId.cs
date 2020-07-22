@@ -8,7 +8,7 @@ namespace Octopus.Data.Model
     }
 
     public interface IId<out TId>
-        where TId : TypedId
+        where TId : ITypedId
     {
         TId Id { get; }
     }
