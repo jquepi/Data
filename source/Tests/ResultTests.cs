@@ -52,11 +52,8 @@ namespace Tests
         {
             var result = new TestClassWithResultMethod().DoSomethingWithNoObjectToReturn(false);
             if (result is IFailureResult fail)
-            {
                 Assert.Fail("This result wasn't a failure case!");
-            }
         }
-
 
         [Test]
         public void CheckSuccessNoObjectWithSuccessCheck()
