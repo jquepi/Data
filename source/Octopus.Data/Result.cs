@@ -5,7 +5,8 @@ using System.Linq;
 namespace Octopus.Data
 {
     public interface IResult
-    {}
+    {
+    }
 
     public class Result : ISuccessResult
     {
