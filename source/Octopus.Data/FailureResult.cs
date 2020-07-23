@@ -10,7 +10,7 @@ namespace Octopus.Data
         string ErrorString { get; }
     }
 
-    internal class FailureResult : IFailureResult
+    public class FailureResult : IFailureResult
     {
         public FailureResult(IEnumerable<string> errors)
         {
@@ -25,7 +25,7 @@ namespace Octopus.Data
     {
     }
 
-    internal class FailureResult<T> : FailureResult, IFailureResult<T>
+    public class FailureResult<T> : FailureResult, IFailureResult<T>
     {
         public FailureResult(IEnumerable<string> errors) : base(errors)
         {
