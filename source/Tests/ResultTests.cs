@@ -10,7 +10,7 @@ namespace Tests
         public void CheckFailureWithFailureCheck()
         {
             var result = new TestClassWithResultMethod().DoSomething(true);
-            if (result is FailureResult fail)
+            if (result is IFailureResult fail)
             {
                 Assert.AreEqual("Some failure reason", fail.ErrorString);
             }
@@ -20,7 +20,7 @@ namespace Tests
         public void CheckFailureWithSuccessCheck()
         {
             var result = new TestClassWithResultMethod().DoSomething(true);
-            if (result is Result<TestObjectBeingReturned> success)
+            if (result is ISuccessResult<TestObjectBeingReturned> success)
             {
                 Assert.Fail("This result wasn't a success case!");
             }
@@ -30,7 +30,7 @@ namespace Tests
         public void CheckSuccessWithSuccessCheck()
         {
             var result = new TestClassWithResultMethod().DoSomething(false);
-            if (result is Result<TestObjectBeingReturned> success)
+            if (result is ISuccessResult<TestObjectBeingReturned> success)
             {
                 Assert.AreEqual("Some Name", success.Value.Name);
             }
@@ -40,7 +40,27 @@ namespace Tests
         public void CheckSuccessWithFailureCheck()
         {
             var result = new TestClassWithResultMethod().DoSomething(false);
-            if (result is FailureResult fail)
+            if (result is IFailureResult fail)
+            {
+                Assert.Fail("This result wasn't a failure case!");
+            }
+        }
+
+        [Test]
+        public void CheckSuccessWithNullableType()
+        {
+            var result = new TestClassWithResultMethod().DoSomething(false);
+            if (result is ISuccessResult<TestObjectBeingReturned?> success)
+            {
+                Assert.AreEqual("Some Name", success.Value?.Name);
+            }
+        }
+
+        [Test]
+        public void CheckSuccessNoObjectWithFailureCheck()
+        {
+            var result = new TestClassWithResultMethod().DoSomethingWithNoObjectToReturn(false);
+            if (result is IFailureResult fail)
             {
                 Assert.Fail("This result wasn't a failure case!");
             }
@@ -48,13 +68,13 @@ namespace Tests
 
 
         [Test]
-        public void CheckSuccessWithNullableType()
+        public void CheckSuccessNoObjectWithSuccessCheck()
         {
-            var result = new TestClassWithResultMethod().DoSomething(false);
-            if (result is Result<TestObjectBeingReturned?> success)
-            {
-                Assert.AreEqual("Some Name", success.Value?.Name);
-            }
+            var result = new TestClassWithResultMethod().DoSomethingWithNoObjectToReturn(false);
+            if (result is ISuccessResult success)
+                Assert.Pass("This was a success");
+            else
+                Assert.Fail("This should have been a success");
         }
 
         class TestClassWithResultMethod
@@ -64,6 +84,13 @@ namespace Tests
                 if (fail)
                     return Result<TestObjectBeingReturned>.Failed("Some failure reason");
                 return Result<TestObjectBeingReturned>.Success(new TestObjectBeingReturned("Some Name"));
+            }
+
+            public IResult DoSomethingWithNoObjectToReturn(bool fail)
+            {
+                if (fail)
+                    return Result.Failed("Some failure reason");
+                return Result.Success();
             }
         }
 

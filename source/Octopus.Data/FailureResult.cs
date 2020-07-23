@@ -4,7 +4,13 @@ using System.Linq;
 
 namespace Octopus.Data
 {
-    public class FailureResult : IResult
+    public interface IFailureResult : IResult
+    {
+        string[] Errors { get; }
+        string ErrorString { get; }
+    }
+
+    internal class FailureResult : IFailureResult
     {
         public FailureResult(IEnumerable<string> errors)
         {
@@ -15,7 +21,11 @@ namespace Octopus.Data
         public string ErrorString => string.Join(Environment.NewLine, Errors);
     }
 
-    public class FailureResult<T> : FailureResult, IResult<T>
+    public interface IFailureResult<T> : IFailureResult, IResult<T>
+    {
+    }
+
+    internal class FailureResult<T> : FailureResult, IFailureResult<T>
     {
         public FailureResult(IEnumerable<string> errors) : base(errors)
         {
