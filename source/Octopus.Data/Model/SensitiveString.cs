@@ -1,12 +1,13 @@
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Octopus.Data.Model
 {
     [DebuggerDisplay("Sensitive: {Value}")]
     public class SensitiveString
     {
-        internal SensitiveString(string? value)
+        internal SensitiveString(string value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value),
@@ -59,9 +60,10 @@ namespace Octopus.Data.Model
 
     public static class SensitiveStringExtensionMethods
     {
-        public static SensitiveString ToSensitiveString(this string s)
+        [return: NotNullIfNotNull("s")]
+        public static SensitiveString? ToSensitiveString(this string? s)
         {
-            return new SensitiveString(s);
+            return s == null ? null : new SensitiveString(s);
         }
     }
 }
