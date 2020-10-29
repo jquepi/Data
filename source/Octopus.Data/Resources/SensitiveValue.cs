@@ -7,6 +7,7 @@ namespace Octopus.Data.Resources
     {
         public bool HasValue { get; set; }
         public string? NewValue { get; set; }
+        public string? Hint { get; set; }
 
         public bool Equals(SensitiveValue other)
         {
