@@ -53,14 +53,14 @@ Task("__CalculateVersion")
     if (!string.IsNullOrWhiteSpace(fromArg))
     {
         nugetVersion = fromArg;
-        Information($"Using GitVersion.NuGetVersion from build argument: '{nugetVersion}'");
+        Information($"Using GitVersion from build argument: '{nugetVersion}'");
     }
     else
     {
         var gitVersionInfo = GitVersion(new GitVersionSettings {
             OutputType = GitVersionOutput.Json
         });
-        nugetVersion = gitVersionInfo.NuGetVersion;
+        nugetVersion = gitVersionInfo.FullSemVer;
         Information($"Using calculated version: '{nugetVersion}'");
     }
 

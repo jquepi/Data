@@ -3,17 +3,11 @@ using Octopus.Data.Model;
 
 namespace Octopus.Data.Resources
 {
-    public class SensitiveValue : IEquatable<SensitiveValue>
+    public class SensitiveValue
     {
         public bool HasValue { get; set; }
         public string? NewValue { get; set; }
-
-        public bool Equals(SensitiveValue other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.HasValue, HasValue) && Equals(other.NewValue, NewValue);
-        }
+        public string? Hint { get; set; }
 
         public static implicit operator SensitiveValue(string newValue)
         {
