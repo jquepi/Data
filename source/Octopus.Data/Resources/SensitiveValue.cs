@@ -13,7 +13,7 @@ namespace Octopus.Data.Resources
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.HasValue, HasValue) && Equals(other.NewValue, NewValue);
+            return Equals(other.HasValue, HasValue) && Equals(other.NewValue, NewValue) && Equals(other.Hint, Hint);
         }
 
         public static implicit operator SensitiveValue(string newValue)
