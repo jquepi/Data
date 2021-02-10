@@ -5,26 +5,31 @@ using System.Linq;
 namespace Octopus.Data
 {
     public interface IResult
-    {}
-
-    public class Result : IResult
     {
-        public static FailureResult Failed(params string[] errors)
+    }
+
+    public class Result : ISuccessResult
+    {
+        protected Result()
+        {
+        }
+
+        public static IFailureResult Failed(params string[] errors)
         {
             return new FailureResult(errors);
         }
 
-        public static FailureResult Failed(IReadOnlyList<string> errors)
+        public static IFailureResult Failed(IReadOnlyList<string> errors)
         {
             return new FailureResult(errors);
         }
 
-        public static FailureResult Failed(params FailureResult[] becauseOf)
+        public static IFailureResult Failed(params IFailureResult[] becauseOf)
         {
             return new FailureResult(becauseOf.SelectMany(b => b.Errors));
         }
 
-        public static Result Success()
+        public static ISuccessResult Success()
         {
             return new Result();
         }
@@ -39,9 +44,14 @@ namespace Octopus.Data
     }
 
     public interface IResult<T> : IResult
-    {}
+    {
+    }
 
-    public interface ISuccessResult<T> : IResult<T>
+    public interface ISuccessResult : IResult
+    {
+    }
+
+    public interface ISuccessResult<T> : IResult<T>, ISuccessResult
     {
         T Value { get; }
     }
@@ -55,17 +65,17 @@ namespace Octopus.Data
 
         public T Value { get; }
 
-        public static FailureResult<T> Failed(params string[] errors)
+        public static IFailureResult<T> Failed(params string[] errors)
         {
             return new FailureResult<T>(errors);
         }
 
-        public static FailureResult<T> Failed(IReadOnlyList<string> errors)
+        public static IFailureResult<T> Failed(IReadOnlyList<string> errors)
         {
             return new FailureResult<T>(errors);
         }
 
-        public static FailureResult<T> Failed(params FailureResult<T>[] becauseOf)
+        public static IFailureResult<T> Failed(params IFailureResult<T>[] becauseOf)
         {
             return new FailureResult<T>(becauseOf.SelectMany(b => b.Errors));
         }

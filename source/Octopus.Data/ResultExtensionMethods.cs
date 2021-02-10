@@ -13,9 +13,7 @@ namespace Octopus.Data
         {
             var successResults = results.OfType<Result<TIn>>().ToArray();
             if (successResults.Length == results.Count)
-            {
                 return Result<TOut>.Success(ifAllSuccessful(successResults.Select(r => r.Value)));
-            }
 
             return Result.Failed(results.OfType<FailureResult>().ToArray());
         }
@@ -56,6 +54,8 @@ namespace Octopus.Data
         }
 
         public static Result<T> AsSuccessResult<T>(this T value)
-            => Result<T>.Success(value);
+        {
+            return Result<T>.Success(value);
+        }
     }
 }

@@ -4,18 +4,29 @@ using System.Linq;
 
 namespace Octopus.Data
 {
-    public class FailureResult : IResult
+    public interface IFailureResult : IResult
+    {
+        string[] Errors { get; }
+        string ErrorString { get; }
+    }
+
+    public class FailureResult : IFailureResult
     {
         public FailureResult(IEnumerable<string> errors)
         {
             Errors = errors.ToArray();
         }
+
         public string[] Errors { get; }
 
         public string ErrorString => string.Join(Environment.NewLine, Errors);
     }
 
-    public class FailureResult<T> : FailureResult, IResult<T>
+    public interface IFailureResult<T> : IFailureResult, IResult<T>
+    {
+    }
+
+    public class FailureResult<T> : FailureResult, IFailureResult<T>
     {
         public FailureResult(IEnumerable<string> errors) : base(errors)
         {

@@ -4,7 +4,7 @@
     <AssemblyName>Octopus.Data</AssemblyName>
     <PackageId>Octopus.Data</PackageId>
     <Authors>Octopus Deploy</Authors>
-    <PackageIconUrl>http://i.octopusdeploy.com/resources/Avatar3_360.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/OctopusDeploy/Data</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -22,6 +22,10 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Octopus.TinyTypes" Version="0.1.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
  
 </Project>
