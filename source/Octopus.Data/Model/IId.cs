@@ -1,4 +1,5 @@
 using System;
+using Octopus.TinyTypes;
 
 namespace Octopus.Data.Model
 {
@@ -8,7 +9,7 @@ namespace Octopus.Data.Model
     }
 
     public interface IId<out TId>
-        where TId : ITypedId
+        where TId : CaseInsensitiveStringTinyType
     {
         TId Id { get; }
     }

@@ -1,8 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
+using Octopus.TinyTypes;
 
 namespace Octopus.Data.Model.User
 {
-    public class UserId : TypedId
+    public class UserId : CaseInsensitiveStringTinyType
     {
         public UserId(string value) : base(value)
         {
