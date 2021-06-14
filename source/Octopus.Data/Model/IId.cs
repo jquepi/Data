@@ -1,5 +1,4 @@
 using System;
-using Octopus.TinyTypes;
 
 namespace Octopus.Data.Model
 {
