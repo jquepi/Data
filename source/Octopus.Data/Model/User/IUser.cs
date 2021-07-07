@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Octopus.Server.MessageContracts.Features.Users;
 
 namespace Octopus.Data.Model.User
 {
-    public interface IUser : IId
+    public interface IUser : IId<UserId>
     {
         string Username { get; }
         Guid IdentificationToken { get; }

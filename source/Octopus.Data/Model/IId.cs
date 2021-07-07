@@ -2,8 +2,12 @@ using System;
 
 namespace Octopus.Data.Model
 {
-    public interface IId
+    public interface IId : IId<string>
     {
-        string Id { get; }
+    }
+
+    public interface IId<out TId>
+    {
+        TId Id { get; }
     }
 }
