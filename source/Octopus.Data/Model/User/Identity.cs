@@ -23,7 +23,7 @@ namespace Octopus.Data.Model.User
             .Select(kvp => IdentityProviderName + ":" + kvp.Value.Value)
             .ToArray();
 
-        public bool Equals(Identity other)
+        public bool Equals(Identity? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -44,7 +44,7 @@ namespace Octopus.Data.Model.User
             });
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
