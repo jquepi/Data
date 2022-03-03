@@ -8,7 +8,6 @@ namespace Octopus.Data.Model.User
     {
         string Username { get; }
         Guid IdentificationToken { get; }
-        Guid SessionsToken { get; }
 
         string DisplayName { get; set; }
         string EmailAddress { get; set; }
@@ -18,7 +17,10 @@ namespace Octopus.Data.Model.User
 
         HashSet<Identity> Identities { get; }
 
-        void RevokeSessions();
+        void RevokeSessions(DateTimeOffset validFrom);
+        bool ValidateAccessToken(DateTimeOffset tokenIssuedAt);
+        bool ValidateRefreshToken(DateTimeOffset tokenIssuedAt);
+ 
         void SetPassword(string plainTextPassword);
         bool ValidatePassword(string plainTextPassword);
         SecurityGroups GetSecurityGroups(string identityProviderName);
