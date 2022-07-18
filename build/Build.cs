@@ -19,28 +19,22 @@ class Build : NukeBuild
 
     [Solution] readonly Solution Solution;
 
-    [OctoVersion] readonly OctoVersionInfo OctoVersionInfo;
-
+    [OctoVersion(Framework = "net6.0")] 
+    readonly OctoVersionInfo OctoVersionInfo;
+    
     static AbsolutePath SourceDirectory => RootDirectory / "source";
     static AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     static AbsolutePath PublishDirectory => RootDirectory / "publish";
     static AbsolutePath LocalPackagesDir => RootDirectory / ".." / "LocalPackages";
 
     Target Clean => _ => _
-        .Before(Restore)
         .Executes(() =>
         {
             SourceDirectory.GlobDirectories("**/bin", "**/obj", "**/TestResults").ForEach(DeleteDirectory);
             EnsureCleanDirectory(ArtifactsDirectory);
             EnsureCleanDirectory(PublishDirectory);
         });
-
-    Target CalculateVersion => _ => _
-        .Executes(() =>
-        {
-            // all the magic happens inside `[OctoVersion]` above.
-        });
-
+    
     Target Restore => _ => _
         .DependsOn(Clean)
         .Executes(() =>
@@ -70,9 +64,8 @@ class Build : NukeBuild
             DotNetTest(_ => _
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
-                .SetNoBuild(true)
-                .EnableNoRestore()
-                .SetFilter(@"FullyQualifiedName\!~Integration.Tests"));
+                .EnableNoBuild()
+                .EnableNoRestore());
         });
 
     Target Pack => _ => _
